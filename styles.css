@@ -1186,6 +1186,134 @@ ul {
 }
 
 /* ========================================
+   Labs Section
+   ======================================== */
+.labs {
+    background: var(--gray-900);
+}
+
+.labs-intro {
+    color: var(--gray-400);
+    font-size: 1.1rem;
+    margin-top: -2rem;
+    margin-bottom: 4rem;
+}
+
+.labs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.lab-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: var(--black);
+    border: 1px solid var(--gray-800);
+    border-radius: 16px;
+    transition: var(--transition);
+    position: relative;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.lab-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(239, 68, 68, 0.05) 0%,
+        transparent 50%
+    );
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.lab-card:hover {
+    border-color: rgba(239, 68, 68, 0.4);
+    transform: translateY(-5px);
+}
+
+.lab-card:hover::before {
+    opacity: 1;
+}
+
+.lab-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(
+        135deg,
+        rgba(239, 68, 68, 0.15) 0%,
+        rgba(239, 68, 68, 0.05) 100%
+    );
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.lab-icon svg {
+    width: 28px;
+    height: 28px;
+    stroke: #ef4444;
+}
+
+.lab-content {
+    flex: 1;
+}
+
+.lab-content h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+}
+
+.lab-content p {
+    font-size: 0.95rem;
+    color: var(--gray-400);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.lab-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: #ef4444;
+    font-weight: 500;
+}
+
+.lab-link svg {
+    width: 14px;
+    height: 14px;
+    transition: var(--transition);
+}
+
+.lab-card:hover .lab-link svg {
+    transform: translate(3px, -3px);
+}
+
+.lab-status {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* ========================================
    Contact Section
    ======================================== */
 .contact-header {
@@ -1453,6 +1581,10 @@ ul {
     .founder-certifs {
         flex-direction: column;
         align-items: center;
+    }
+
+    .labs-grid {
+        grid-template-columns: 1fr;
     }
 }
 
