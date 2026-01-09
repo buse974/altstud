@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CV - Christophe Robert | Développeur Senior & Architecte</title>
+        <meta
+            name="description"
+            content="CV de Christophe Robert - Développeur Senior & Architecte, 15+ ans d'expérience en PHP, Symfony, Laravel, API REST, DevOps."
+        />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --bg: #0a0a0a;
+                --bg-light: #171717;
+                --white: #ffffff;
+                --gray-300: #d4d4d4;
+                --gray-400: #a3a3a3;
+                --gray-500: #737373;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family:
+                    "Space Grotesk",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    sans-serif;
+                background: var(--bg);
+                color: var(--white);
+                line-height: 1.6;
+            }
+
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+                padding: 4rem 2rem;
+            }
+
+            .back-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: var(--gray-400);
+                text-decoration: none;
+                margin-bottom: 3rem;
+                font-size: 0.9rem;
+                transition: color 0.2s;
+            }
+            .back-link:hover {
+                color: var(--white);
+            }
+
+            .header {
+                display: grid;
+                grid-template-columns: auto 1fr;
+                gap: 2.5rem;
+                align-items: start;
+                margin-bottom: 4rem;
+                padding-bottom: 3rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .photo {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                object-fit: cover;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            }
+
+            .header-info h1 {
+                font-size: 2.5rem;
+                font-weight: 500;
+                letter-spacing: -0.02em;
+                margin-bottom: 0.5rem;
+            }
+
+            .header-info .role {
+                font-size: 1.2rem;
+                color: var(--gray-400);
+                margin-bottom: 1.5rem;
+            }
+
+            .contact-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+            }
+
+            .contact-item {
+                color: var(--gray-300);
+                text-decoration: none;
+                font-size: 0.9rem;
+            }
+            .contact-item:hover {
+                color: var(--white);
+            }
+
+            .profil {
+                background: var(--bg-light);
+                padding: 2rem;
+                border-radius: 12px;
+                margin-bottom: 3rem;
+            }
+
+            .profil p {
+                color: var(--gray-300);
+                font-size: 1.05rem;
+            }
+
+            .section {
+                margin-bottom: 3rem;
+            }
+
+            .section-title {
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--gray-500);
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .skills-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1rem;
+            }
+
+            .skill-item {
+                background: var(--bg-light);
+                padding: 1rem 1.25rem;
+                border-radius: 8px;
+            }
+
+            .skill-item strong {
+                color: var(--white);
+                display: block;
+                margin-bottom: 0.25rem;
+                font-weight: 500;
+            }
+
+            .skill-item span {
+                color: var(--gray-400);
+                font-size: 0.9rem;
+            }
+
+            .experience-item {
+                margin-bottom: 2.5rem;
+                padding-left: 1.5rem;
+                border-left: 2px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .experience-header {
+                margin-bottom: 1rem;
+            }
+
+            .experience-header h3 {
+                font-size: 1.2rem;
+                font-weight: 500;
+                margin-bottom: 0.25rem;
+            }
+
+            .experience-header .company {
+                color: var(--gray-400);
+                font-size: 0.95rem;
+            }
+
+            .experience-header .date {
+                color: var(--gray-500);
+                font-size: 0.85rem;
+            }
+
+            .experience-list {
+                list-style: none;
+            }
+
+            .experience-list li {
+                color: var(--gray-300);
+                padding-left: 1rem;
+                position: relative;
+                margin-bottom: 0.5rem;
+                font-size: 0.95rem;
+            }
+
+            .experience-list li::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0.6em;
+                width: 4px;
+                height: 4px;
+                background: var(--gray-500);
+                border-radius: 50%;
+            }
+
+            .experience-list li strong {
+                font-size: 1.05rem;
+                color: var(--white);
+            }
+
+            .formation-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .formation-item {
+                background: var(--bg-light);
+                padding: 1.5rem;
+                border-radius: 8px;
+            }
+
+            .formation-item h4 {
+                font-weight: 500;
+                margin-bottom: 0.25rem;
+            }
+
+            .formation-item .school {
+                color: var(--gray-400);
+                font-size: 0.9rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .formation-item .year {
+                color: var(--gray-500);
+                font-size: 0.85rem;
+            }
+
+            .print-btn {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: var(--white);
+                color: var(--bg);
+                border: none;
+                padding: 1rem 1.5rem;
+                border-radius: 50px;
+                font-family: inherit;
+                font-size: 0.9rem;
+                font-weight: 500;
+                cursor: pointer;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                transition: transform 0.2s;
+            }
+            .print-btn:hover {
+                transform: scale(1.05);
+            }
+
+            @media print {
+                @page {
+                    size: A4;
+                    margin: 15mm;
+                }
+
+                .back-link,
+                .print-btn {
+                    display: none !important;
+                }
+
+                body {
+                    background: white !important;
+                    color: black !important;
+                    font-size: 10pt;
+                    line-height: 1.3;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                }
+
+                .container {
+                    max-width: 100%;
+                    padding: 0;
+                }
+
+                .header {
+                    padding-bottom: 1rem;
+                    margin-bottom: 1rem;
+                }
+
+                .photo {
+                    width: 100px;
+                    height: 100px;
+                    box-shadow: none !important;
+                }
+
+                .header-info h1 {
+                    font-size: 1.8rem;
+                }
+
+                .header-info .role {
+                    color: #374151 !important;
+                }
+
+                .contact-item {
+                    color: #1f2937 !important;
+                    font-weight: 500;
+                }
+
+                .profil {
+                    background: #e8f4f8 !important;
+                    border-left: 4px solid #0891b2 !important;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                }
+
+                .profil p {
+                    color: #0c4a6e !important;
+                }
+
+                .skill-item {
+                    background: #f0fdf4 !important;
+                    border-left: 3px solid #10b981 !important;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                }
+
+                .skill-item strong {
+                    color: #065f46 !important;
+                }
+
+                .formation-item {
+                    background: #fef3c7 !important;
+                    border-left: 3px solid #f59e0b !important;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                }
+
+                .formation-item h4 {
+                    color: #92400e !important;
+                }
+
+                .profil {
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                }
+
+                .section {
+                    margin-bottom: 1rem;
+                }
+
+                .section-title {
+                    color: #333;
+                    margin-bottom: 0.75rem;
+                }
+
+                .skills-grid {
+                    gap: 0.5rem;
+                }
+
+                .skill-item {
+                    padding: 0.5rem 0.75rem;
+                }
+
+                .experience-item {
+                    margin-bottom: 1rem;
+                    break-inside: avoid;
+                    border-left-color: #3b82f6 !important;
+                }
+                .experience-header {
+                    margin-bottom: 0.5rem;
+                }
+
+                .experience-header h3 {
+                    color: #1e40af !important;
+                }
+
+                .experience-header .company {
+                    color: #374151 !important;
+                }
+
+                .experience-list li {
+                    color: #1f2937 !important;
+                    margin-bottom: 0.4rem;
+                }
+
+                .experience-list li strong {
+                    color: #1e3a5f !important;
+                    font-weight: 700;
+                    font-size: 1rem;
+                }
+
+                .formation-grid {
+                    gap: 0.75rem;
+                }
+
+                .formation-item {
+                    padding: 0.75rem;
+                }
+            }
+
+            @media (max-width: 600px) {
+                .header {
+                    grid-template-columns: 1fr;
+                    text-align: center;
+                }
+                .photo {
+                    margin: 0 auto;
+                }
+                .contact-grid {
+                    justify-content: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <a href="/" class="back-link">
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Retour au site
+            </a>
+
+            <header class="header">
+                <img src="img/cro.png" alt="Christophe Robert" class="photo" />
+                <div class="header-info">
+                    <h1>Christophe Robert</h1>
+                    <p class="role">Développeur Senior & Architecte</p>
+                    <div class="contact-grid">
+                        <a href="tel:+33641685102" class="contact-item"
+                            >+33 6 41 68 51 02</a
+                        >
+                        <a href="mailto:buse974@gmail.com" class="contact-item"
+                            >buse974@gmail.com</a
+                        >
+                        <a
+                            href="https://www.linkedin.com/in/christopherobert84/"
+                            target="_blank"
+                            class="contact-item"
+                            >LinkedIn</a
+                        >
+                        <span class="contact-item">Golfe-Juan, France</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="profil">
+                <p>
+                    <strong
+                        >Développeur Senior & Architecte Logiciel (+15 ans
+                        d'expérience)</strong
+                    >, expert en écosystèmes PHP (Symfony, Laravel) et en
+                    conception d'API REST performantes. Je conçois et déploie
+                    des
+                    <strong
+                        >architectures logicielles complètes, scalables et à
+                        haute disponibilité</strong
+                    >
+                    (AWS/GCP). Ma maîtrise des pratiques DevOps (CI/CD, Docker)
+                    et mon approche TDD garantissent la qualité et la robustesse
+                    du code livré. Partisan de l'efficience, j'intègre
+                    activement les LLMs (Large Language Models) pour augmenter
+                    la productivité et automatiser les tâches de développement.
+                </p>
+                <p style="margin-top: 1rem">
+                    Passionne par les nouvelles technologies et l'innovation.
+                    Intransigeant sur la qualite du code, les tests et les
+                    bonnes pratiques. Linuxien convaincu. Toujours en veille,
+                    toujours curieux.
+                </p>
+            </div>
+
+            <section class="section">
+                <h2 class="section-title">Competences techniques</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <strong>Developpement Web & Mobile</strong>
+                        <span
+                            >PHP (Symfony, Laravel, Laminas), Doctrine,
+                            JavaScript, React JS, React Native, Python</span
+                        >
+                    </div>
+                    <div class="skill-item">
+                        <strong>Bases de Donnees</strong>
+                        <span
+                            >MariaDB, MySQL, Redis, optimisation SQL,
+                            NoSQL</span
+                        >
+                    </div>
+                    <div class="skill-item">
+                        <strong>APIs & Architecture</strong>
+                        <span
+                            >API REST, micro-services, haute disponibilite, MVC,
+                            Middleware</span
+                        >
+                    </div>
+                    <div class="skill-item">
+                        <strong>DevOps & CI/CD</strong>
+                        <span
+                            >GitLab CI, GitHub Actions, Docker, Docker Compose,
+                            deploiement continu</span
+                        >
+                    </div>
+                    <div class="skill-item">
+                        <strong>Cloud</strong>
+                        <span
+                            >AWS, Google Cloud Platform, infrastructures
+                            scalables</span
+                        >
+                    </div>
+                    <div class="skill-item">
+                        <strong>Gestion de Projet</strong>
+                        <span>Scrum, Kanban, backlog, User Stories, Jira</span>
+                    </div>
+                    <div class="skill-item">
+                        <strong>Tests & Qualite</strong>
+                        <span
+                            >TDD, PHPUnit, tests unitaires, integration, code
+                            review</span
+                        >
+                    </div>
+                    <div class="skill-item">
+                        <strong>Intelligence Artificielle & LLM</strong>
+                        <span
+                            >Développement assisté par IA (Claude, Gemini),
+                            intégration d'API de LLMs, prompt engineering.</span
+                        >
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Experiences professionnelles</h2>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3>Développeur Senior / Lead Developer Freelance</h3>
+                        <p class="company">
+                            ALT STUDIO (Collectif de développeurs)
+                        </p>
+                        <p class="date">Dec. 2018 - Present</p>
+                    </div>
+                    <p style="margin-bottom: 1rem; color: var(--gray-300)">
+                        En tant que Lead Developer, j'ai piloté la conception
+                        technique, le développement et le déploiement
+                        d'applications complexes pour diverses startups et PME,
+                        en intervenant sur toute la chaîne de valeur du projet.
+                    </p>
+                    <ul class="experience-list">
+                        <li>
+                            <strong
+                                >Alen LoadControl (Mission longue, ~18
+                                mois)</strong
+                            >
+                            : Architecture et développement d'une API REST
+                            (Lumen) pour l'aviation, incluant la création d'un
+                            algorithme complexe d'optimisation de chargement
+                            (ULD). Déploiement d'une architecture scalable sur
+                            Google Cloud Platform (GCP).
+                            <p
+                                style="
+                                    font-size: 0.85rem;
+                                    color: var(--gray-400);
+                                    margin-top: 0.25rem;
+                                "
+                            >
+                                <em
+                                    >Stack: PHP, Lumen, API REST, GCP,
+                                    Algorithmes</em
+                                >
+                            </p>
+                        </li>
+                        <li>
+                            <strong
+                                >Codenekt (Mission récurrente, ~24 mois)</strong
+                            >
+                            : Développement du backend principal (Lumen) et
+                            intégration de multiples API tierces. Mise en place
+                            de la CI/CD (GitLab) et de la documentation
+                            OpenAPI/Swagger. Collaboration étroite avec l'équipe
+                            mobile React Native.
+                            <p
+                                style="
+                                    font-size: 0.85rem;
+                                    color: var(--gray-400);
+                                    margin-top: 0.25rem;
+                                "
+                            >
+                                <em
+                                    >Stack: PHP, Lumen, API REST, GitLab CI,
+                                    OpenAPI, React Native</em
+                                >
+                            </p>
+                        </li>
+                        <li>
+                            <strong>Institut Imagine (Mission ~6 mois)</strong>
+                            : Conception et développement full-stack d'un module
+                            de réservation de salles (Laravel et React.js). J'ai
+                            défini l'architecture, modélisé la base de données
+                            et développé l'API ainsi que l'interface
+                            utilisateur.
+                            <p
+                                style="
+                                    font-size: 0.85rem;
+                                    color: var(--gray-400);
+                                    margin-top: 0.25rem;
+                                "
+                            >
+                                <em
+                                    >Stack: PHP, Laravel, React.js, Full-stack,
+                                    SQL</em
+                                >
+                            </p>
+                        </li>
+                        <li>
+                            <strong
+                                >Sapientia App (Mission de pilotage &
+                                développement, ~9 mois)</strong
+                            >
+                            : Architecture et développement de l'API REST
+                            (Lumen) en parallèle du pilotage du projet.
+                            Supervision de l'équipe React Native et mise en
+                            place des pipelines de CI/CD.
+                            <p
+                                style="
+                                    font-size: 0.85rem;
+                                    color: var(--gray-400);
+                                    margin-top: 0.25rem;
+                                "
+                            >
+                                <em
+                                    >Stack: PHP, Lumen, API REST, CI/CD, React
+                                    Native, Gestion de projet</em
+                                >
+                            </p>
+                        </li>
+                        <li>
+                            <strong
+                                >Colocation-Adulte (Maintenance & Évolution, ~12
+                                mois)</strong
+                            >
+                            : Reprise et maintenance d'une application legacy
+                            critique (Zend Framework 3 / Laminas). Refactoring
+                            de modules clés, optimisation des requêtes Doctrine
+                            et amélioration de la stabilité de la plateforme.
+                            <p
+                                style="
+                                    font-size: 0.85rem;
+                                    color: var(--gray-400);
+                                    margin-top: 0.25rem;
+                                "
+                            >
+                                <em
+                                    >Stack: PHP, Laminas (Zend), Doctrine,
+                                    Maintenance, Refactoring</em
+                                >
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3>Project Manager - Lead Developer / CTO</h3>
+                        <p class="company">CocoonCare</p>
+                        <p class="date">Mai 2020 - Fevrier 2023</p>
+                    </div>
+                    <ul class="experience-list">
+                        <li>
+                            <strong
+                                >Conception de l'architecture et automatisation
+                                de A à Z</strong
+                            >
+                            du cycle de déploiement (CI/CD GitLab).
+                        </li>
+                        <li>
+                            <strong
+                                >Standardisation et généralisation de l'approche
+                                TDD</strong
+                            >
+                            sur l'ensemble des projets backend pour garantir une
+                            qualité de code irréprochable.
+                        </li>
+                        <li>
+                            Conception d'APIs REST performantes et optimisation
+                            continue du backend.
+                        </li>
+                        <li>
+                            Code review, qualite logicielle, documentation
+                            technique.
+                        </li>
+                        <li>Gestion et deploiement d'environnements Docker.</li>
+                        <li>
+                            Systeme embarque IoT : stack Docker Compose sur
+                            Raspberry Pi, capteurs de chute via MQTT
+                            (Mosquitto), scripts de deploiement custom.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3>
+                            Lead Developer / Senior Developer - Product Owner
+                        </h3>
+                        <p class="company">THE STUDNET</p>
+                        <p class="date">Dec. 2012 - Dec. 2018</p>
+                    </div>
+                    <ul class="experience-list">
+                        <li>
+                            Définition de la vision produit et gestion du
+                            backlog (User Stories) en méthode Agile.
+                        </li>
+                        <li>
+                            <strong
+                                >Conception de l'architecture et développement
+                                des API critiques</strong
+                            >
+                            (ZF2, ZF3, Laminas), incluant les migrations de
+                            versions.
+                        </li>
+                        <li>
+                            Mise en oeuvre d'architectures à haute
+                            disponibilité.
+                        </li>
+                        <li>
+                            <strong
+                                >Optimisation avancée des performances</strong
+                            >
+                            : gestion du cache (Memcached), configuration
+                            OPcache et expérimentation du JIT de PHP 8.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3>Fondateur & Lead Developer</h3>
+                        <p class="company">
+                            TagnCar - 1er prix Vinci Hackathon 2015
+                        </p>
+                        <p class="date">Juillet 2015</p>
+                    </div>
+                    <ul class="experience-list">
+                        <li>
+                            En tant que leader technique du projet, conception
+                            et développement de l'application de messagerie
+                            basée sur la reconnaissance de plaques
+                            d'immatriculation.
+                        </li>
+                        <li>Frontend : AngularJS - Backend : ZF3 Expressive</li>
+                        <li>
+                            App mobile Cordova avec extension native
+                            (Java/Swift) : compilation OpenALPR (C++) pour
+                            Android et cross-compilation iOS
+                        </li>
+                        <li>
+                            Deploiement sur Google Cloud, compatible iOS &
+                            Android
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3>Research and Development Engineer</h3>
+                        <p class="company">Bull Amesys Conseil</p>
+                        <p class="date">2012</p>
+                    </div>
+                    <ul class="experience-list">
+                        <li>
+                            Conception d'un module Qt (C++) pour bancs d'essais
+                            helicoptere
+                        </li>
+                        <li>
+                            Personnalisation GLPI (PHP) pour ameliorer la
+                            remontee d'anomalies
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Formation</h2>
+                <div class="formation-grid">
+                    <div class="formation-item">
+                        <h4>Chef de Projet en Informatique et Robotique</h4>
+                        <p class="school">IMERIR</p>
+                        <p class="year">2009 - 2012</p>
+                    </div>
+                    <div class="formation-item">
+                        <h4>
+                            Master Sciences Electronique, Automatique,
+                            Informatique
+                        </h4>
+                        <p class="school">Universite de Perpignan</p>
+                        <p class="year">2009 - 2012</p>
+                    </div>
+                    <div class="formation-item">
+                        <h4>Certification Linux LPIC-1</h4>
+                        <p class="school">Linux Professional Institute</p>
+                        <p class="year">2012</p>
+                    </div>
+                    <div class="formation-item">
+                        <h4>BTS Informatique et Reseaux</h4>
+                        <p class="school">CFAI-84 Avignon</p>
+                        <p class="year">2006 - 2009</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <button class="print-btn" onclick="window.print()">
+            Imprimer / PDF
+        </button>
+        <button
+            id="export-doc-btn"
+            class="print-btn"
+            style="right: 12rem; background-color: #2572c2"
+        >
+            Exporter .doc
+        </button>
+
+        <script>
+            document
+                .getElementById("export-doc-btn")
+                .addEventListener("click", async function () {
+                    // --- Function to fetch image and convert to Data URI ---
+                    async function toDataURL(url) {
+                        const response = await fetch(url);
+                        const blob = await response.blob();
+                        return new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => resolve(reader.result);
+                            reader.onerror = reject;
+                            reader.readAsDataURL(blob);
+                        });
+                    }
+
+                    try {
+                        // 1. Get the image as a Data URI
+                        const imageDataURI = await toDataURL("img/cro.png");
+
+                        // 2. Get styles and HTML content
+                        const fullCssText =
+                            document.querySelector("style").innerHTML;
+                        const printCssMatch = fullCssText.match(
+                            /@media print {([\s\S]*)}/,
+                        );
+                        let printCss = "";
+                        if (printCssMatch && printCssMatch[1]) {
+                            printCss = printCssMatch[1];
+                        }
+                        const baseStyles = `
+                        body { font-family: Arial, sans-serif; background: white !important; color: black !important; }
+                        .container { max-width: 100%; padding: 0; }
+                        .back-link, .print-btn, #export-doc-btn { display: none !important; }
+                    `;
+
+                        // 3. Get HTML content and embed the image
+                        const container = document
+                            .querySelector(".container")
+                            .cloneNode(true);
+                        const backLink = container.querySelector(".back-link");
+                        if (backLink) {
+                            backLink.parentNode.removeChild(backLink);
+                        }
+                        const imgElement = container.querySelector(".photo");
+                        if (imgElement) {
+                            imgElement.src = imageDataURI;
+                        }
+                        const sourceHTML = container.outerHTML;
+
+                        // 4. Assemble the final HTML for the .doc file
+                        const fullSource = `
+                        <!doctype html>
+                        <html lang="fr" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+                            <head>
+                                <meta charset="UTF-8" />
+                                <title>CV - Christophe Robert</title>
+                                <style>
+                                    ${baseStyles}
+                                    ${printCss}
+                                </style>
+                            </head>
+                            <body>
+                                ${sourceHTML}
+                            </body>
+                        </html>
+                    `;
+
+                        // 5. Create and download the blob
+                        const blob = new Blob(["\ufeff", fullSource], {
+                            type: "application/msword",
+                        });
+
+                        const link = document.createElement("a");
+                        link.href = URL.createObjectURL(blob);
+                        link.download = "CV-Christophe-Robert.doc";
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    } catch (error) {
+                        console.error(
+                            "Erreur lors de la création du document:",
+                            error,
+                        );
+                        alert(
+                            "Une erreur est survenue lors de la création du document. L'image n'a pas pu être chargée.",
+                        );
+                    }
+                });
+        </script>
+    </body>
+</html>

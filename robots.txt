@@ -1,0 +1,18 @@
+# Robots.txt for altstud.io
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://altstud.io/sitemap.xml
+
+# Disallow admin/system files
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /*.php$
+Disallow: /contact.php
+
+# Allow CSS and JS for rendering
+Allow: /styles.css
+Allow: /script.js

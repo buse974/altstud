@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- SEO Primary Meta Tags -->
+        <title>
+            Altstud.IO | Développement Backend, API REST & Architecture Cloud
+            sur mesure
+        </title>
+        <meta
+            name="title"
+            content="Altstud.IO | Développement Backend, API REST & Architecture Cloud sur mesure"
+        />
+        <meta
+            name="description"
+            content="Collectif d'experts en développement PHP (Symfony, Laravel), conception d'API REST, architecture cloud AWS/GCP et DevOps. Du MVP à la maintenance, nous construisons votre projet de A à Z. Basé à Golfe-Juan, Côte d'Azur."
+        />
+        <meta
+            name="keywords"
+            content="développement backend, API REST, PHP, Symfony, Laravel, architecture cloud, AWS, GCP, DevOps, CI/CD, Docker, CTO as a Service, développeur senior, Golfe-Juan, Côte d'Azur, Nice, Cannes"
+        />
+        <meta name="author" content="Christophe Robert - Altstud.IO" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://altstud.io/" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://altstud.io/" />
+        <meta
+            property="og:title"
+            content="Altstud.IO | Développement Backend, API REST & Architecture Cloud"
+        />
+        <meta
+            property="og:description"
+            content="Collectif d'experts en développement PHP, conception d'API REST et architecture cloud. Du MVP à la maintenance, nous construisons votre projet de A à Z."
+        />
+        <meta property="og:image" content="https://altstud.io/og-image.png" />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:site_name" content="Altstud.IO" />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://altstud.io/" />
+        <meta
+            name="twitter:title"
+            content="Altstud.IO | Développement Backend, API REST & Architecture Cloud"
+        />
+        <meta
+            name="twitter:description"
+            content="Collectif d'experts en développement PHP, conception d'API REST et architecture cloud. Du MVP à la maintenance."
+        />
+        <meta name="twitter:image" content="https://altstud.io/og-image.png" />
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+        <!-- Geo Tags -->
+        <meta name="geo.region" content="FR-06" />
+        <meta name="geo.placename" content="Golfe-Juan" />
+        <meta name="geo.position" content="43.5637;7.0731" />
+        <meta name="ICBM" content="43.5637, 7.0731" />
+
+        <!-- Schema.org JSON-LD -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "ProfessionalService",
+                "name": "Altstud.IO",
+                "description": "Collectif d'experts en développement backend, API REST et architecture cloud. Spécialisés en PHP (Symfony, Laravel), DevOps et solutions sur mesure.",
+                "url": "https://altstud.io",
+                "logo": "https://altstud.io/logo.png",
+                "image": "https://altstud.io/og-image.png",
+                "telephone": "+33641685102",
+                "email": "contact@altstud.io",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "22 avenue de la palmeraie",
+                    "addressLocality": "Golfe-Juan",
+                    "postalCode": "06220",
+                    "addressCountry": "FR"
+                },
+                "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 43.5637,
+                    "longitude": 7.0731
+                },
+                "areaServed": ["France", "Europe"],
+                "priceRange": "€€€",
+                "openingHours": "Mo-Fr 09:00-18:00",
+                "founder": {
+                    "@type": "Person",
+                    "name": "Christophe Robert",
+                    "jobTitle": "Lead Developer Backend",
+                    "sameAs": "https://www.linkedin.com/in/christopherobert84/"
+                },
+                "sameAs": ["https://www.linkedin.com/in/christopherobert84/"],
+                "knowsAbout": [
+                    "Développement PHP",
+                    "Symfony",
+                    "Laravel",
+                    "API REST",
+                    "Architecture Cloud",
+                    "AWS",
+                    "Google Cloud Platform",
+                    "DevOps",
+                    "Docker",
+                    "CI/CD"
+                ],
+                "hasOfferCatalog": {
+                    "@type": "OfferCatalog",
+                    "name": "Services de développement",
+                    "itemListElement": [
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Service",
+                                "name": "Développement Backend",
+                                "description": "APIs REST performantes, architectures micro-services, développement PHP"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Service",
+                                "name": "Architecture Cloud",
+                                "description": "Conception d'infrastructures scalables sur AWS et GCP"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Service",
+                                "name": "DevOps & CI/CD",
+                                "description": "Automatisation des déploiements, conteneurisation Docker"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Service",
+                                "name": "CTO as a Service",
+                                "description": "Accompagnement technique, audits de code, supervision d'équipes"
+                            }
+                        }
+                    ]
+                }
+            }
+        </script>
+
+        <!-- Preconnect & Styles -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <!-- CSS critique inline pour le rendu initial -->
+        <style>
+            *,
+            *::before,
+            *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                font-family:
+                    "Space Grotesk",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    sans-serif;
+                background: #0a0a0a;
+                color: #fff;
+                line-height: 1.6;
+            }
+            .navbar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                padding: 1rem 0;
+            }
+            .nav-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 0.5rem 4rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .nav-inner {
+                display: flex;
+                align-items: center;
+                gap: 4rem;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.06);
+                border-radius: 100px;
+                padding: 0.75rem 0.75rem 0.75rem 1.75rem;
+                backdrop-filter: blur(20px);
+            }
+            .logo {
+                font-size: 1.35rem;
+                font-weight: 700;
+                color: #fff;
+                text-decoration: none;
+            }
+            .hero {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                padding: 8rem 4rem;
+                background: #050508;
+            }
+            .hero-bg {
+                position: absolute;
+                inset: 0;
+                overflow: hidden;
+            }
+            .hero-content {
+                text-align: center;
+                max-width: 900px;
+                position: relative;
+                z-index: 1;
+            }
+            .hero-title {
+                font-size: clamp(2.5rem, 6vw, 4.5rem);
+                font-weight: 500;
+                line-height: 1.15;
+                letter-spacing: -0.03em;
+                margin-bottom: 2rem;
+            }
+        </style>
+
+        <!-- CSS complet chargé en async -->
+        <link
+            rel="preload"
+            href="styles.css"
+            as="style"
+            onload="
+                this.onload = null;
+                this.rel = 'stylesheet';
+            "
+        />
+        <noscript><link rel="stylesheet" href="styles.css" /></noscript>
+
+        <!-- Google Fonts chargé en async -->
+        <link
+            rel="preload"
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+            as="style"
+            onload="
+                this.onload = null;
+                this.rel = 'stylesheet';
+            "
+        />
+        <noscript
+            ><link
+                rel="stylesheet"
+                href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        /></noscript>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-inner">
+                    <a href="#" class="logo">
+                        <span class="logo-text">altstud</span
+                        ><span class="logo-dot">.</span
+                        ><span class="logo-io">IO</span>
+                    </a>
+                    <ul class="nav-links">
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#expertise">Expertise</a></li>
+                        <li><a href="#founder">Fondateur</a></li>
+                        <li>
+                            <a href="#contact" class="nav-cta"
+                                >Contact
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2.5"
+                                >
+                                    <path d="M5 12h14M12 5l7 7-7 7" /></svg
+                            ></a>
+                        </li>
+                    </ul>
+                </div>
+                <button class="menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+
+        <main>
+            <!-- Hero Section -->
+            <header class="hero">
+                <div class="hero-bg">
+                    <div class="hero-gradient"></div>
+                    <div class="hero-grid"></div>
+                    <div class="hero-glow hero-glow-1"></div>
+                    <div class="hero-glow hero-glow-2"></div>
+                    <div class="hero-glow hero-glow-3"></div>
+                    <div class="hero-orb hero-orb-1"></div>
+                    <div class="hero-orb hero-orb-2"></div>
+                    <svg
+                        class="hero-lines"
+                        viewBox="0 0 1440 900"
+                        preserveAspectRatio="xMidYMid slice"
+                    >
+                        <defs>
+                            <linearGradient
+                                id="line-gradient"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="0%"
+                            >
+                                <stop
+                                    offset="0%"
+                                    stop-color="rgba(99,102,241,0)"
+                                />
+                                <stop
+                                    offset="50%"
+                                    stop-color="rgba(99,102,241,0.5)"
+                                />
+                                <stop
+                                    offset="100%"
+                                    stop-color="rgba(99,102,241,0)"
+                                />
+                            </linearGradient>
+                        </defs>
+                        <path
+                            class="hero-line"
+                            d="M0,300 Q360,250 720,300 T1440,300"
+                            stroke="url(#line-gradient)"
+                            fill="none"
+                            stroke-width="1"
+                        />
+                        <path
+                            class="hero-line hero-line-2"
+                            d="M0,450 Q360,400 720,450 T1440,450"
+                            stroke="url(#line-gradient)"
+                            fill="none"
+                            stroke-width="1"
+                        />
+                        <path
+                            class="hero-line hero-line-3"
+                            d="M0,600 Q360,550 720,600 T1440,600"
+                            stroke="url(#line-gradient)"
+                            fill="none"
+                            stroke-width="1"
+                        />
+                    </svg>
+                </div>
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        L'agilité d'un collectif,<br />
+                        <span>la force d'une équipe,</span><br />
+                        la vision d'un CTO.
+                    </h1>
+                    <p class="hero-description">
+                        Du MVP à la maintenance, nous construisons votre projet
+                        de A à Z.<br />
+                        Conception, développement, déploiement — un partenaire
+                        technique à chaque étape.
+                    </p>
+                    <a href="#contact" class="btn-hero">Démarrer un projet</a>
+                </div>
+                <div class="scroll-hint">
+                    <div class="mouse"></div>
+                </div>
+            </header>
+
+            <!-- Services Section -->
+            <section id="services" class="section services">
+                <div class="container">
+                    <div class="section-label">Ce que nous faisons</div>
+                    <h2 class="section-title">Services</h2>
+
+                    <div class="services-grid">
+                        <article class="service-card">
+                            <span class="service-number">01</span>
+                            <h3>Développement Backend</h3>
+                            <p>
+                                APIs REST performantes, architectures
+                                micro-services, développement PHP (Symfony,
+                                Laravel, Laminas) et optimisation des
+                                performances.
+                            </p>
+                        </article>
+
+                        <article class="service-card">
+                            <span class="service-number">02</span>
+                            <h3>Architecture Cloud</h3>
+                            <p>
+                                Conception d'infrastructures scalables sur AWS
+                                et GCP. Haute disponibilité, résilience et
+                                optimisation des coûts.
+                            </p>
+                        </article>
+
+                        <article class="service-card">
+                            <span class="service-number">03</span>
+                            <h3>DevOps & CI/CD</h3>
+                            <p>
+                                Automatisation complète des déploiements,
+                                conteneurisation Docker, pipelines GitLab
+                                CI/GitHub Actions.
+                            </p>
+                        </article>
+
+                        <article class="service-card">
+                            <span class="service-number">04</span>
+                            <h3>Product Management</h3>
+                            <p>
+                                User Story Mapping, rédaction de User Stories,
+                                gestion de backlog, définition de roadmap
+                                produit et accompagnement Product Owner.
+                            </p>
+                        </article>
+
+                        <article class="service-card">
+                            <span class="service-number">05</span>
+                            <h3>Conseil & CTO as a Service</h3>
+                            <p>
+                                Accompagnement technique, audits de code, mise
+                                en place des bonnes pratiques (TDD, Agile) et
+                                supervision d'équipes.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expertise Section -->
+            <section id="expertise" class="section expertise">
+                <div class="container">
+                    <div class="section-label">Notre stack</div>
+                    <h2 class="section-title">Expertise Technique</h2>
+
+                    <div class="expertise-grid">
+                        <div class="expertise-category">
+                            <h3>Backend</h3>
+                            <ul>
+                                <li>PHP 8+</li>
+                                <li>Symfony</li>
+                                <li>Laravel</li>
+                                <li>Laminas</li>
+                                <li>Doctrine ORM</li>
+                            </ul>
+                        </div>
+
+                        <div class="expertise-category">
+                            <h3>Frontend</h3>
+                            <ul>
+                                <li>React JS</li>
+                                <li>React Native</li>
+                                <li>JavaScript ES6+</li>
+                                <li>TypeScript</li>
+                            </ul>
+                        </div>
+
+                        <div class="expertise-category">
+                            <h3>Data</h3>
+                            <ul>
+                                <li>MySQL / MariaDB</li>
+                                <li>PostgreSQL</li>
+                                <li>Redis</li>
+                                <li>NoSQL</li>
+                            </ul>
+                        </div>
+
+                        <div class="expertise-category">
+                            <h3>DevOps</h3>
+                            <ul>
+                                <li>Docker</li>
+                                <li>GitLab CI</li>
+                                <li>GitHub Actions</li>
+                                <li>Kubernetes</li>
+                            </ul>
+                        </div>
+
+                        <div class="expertise-category">
+                            <h3>Cloud</h3>
+                            <ul>
+                                <li>AWS</li>
+                                <li>Google Cloud</li>
+                                <li>Scaleway</li>
+                                <li>OVH</li>
+                            </ul>
+                        </div>
+
+                        <div class="expertise-category">
+                            <h3>Méthodologies</h3>
+                            <ul>
+                                <li>TDD</li>
+                                <li>Scrum</li>
+                                <li>Kanban</li>
+                                <li>Code Review</li>
+                            </ul>
+                        </div>
+
+                        <div class="expertise-category">
+                            <h3>Product</h3>
+                            <ul>
+                                <li>User Story Mapping</li>
+                                <li>Backlog Grooming</li>
+                                <li>Roadmap Produit</li>
+                                <li>Specs Fonctionnelles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Founder Section -->
+            <section id="founder" class="section founder">
+                <div class="founder-bg">
+                    <div class="founder-gradient"></div>
+                    <div class="founder-grid"></div>
+                    <div class="founder-glow founder-glow-1"></div>
+                    <div class="founder-glow founder-glow-2"></div>
+                    <svg
+                        class="founder-lines"
+                        viewBox="0 0 1440 600"
+                        preserveAspectRatio="xMidYMid slice"
+                    >
+                        <defs>
+                            <linearGradient
+                                id="founder-line-grad"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="0%"
+                            >
+                                <stop
+                                    offset="0%"
+                                    stop-color="rgba(16,185,129,0)"
+                                />
+                                <stop
+                                    offset="50%"
+                                    stop-color="rgba(16,185,129,0.4)"
+                                />
+                                <stop
+                                    offset="100%"
+                                    stop-color="rgba(16,185,129,0)"
+                                />
+                            </linearGradient>
+                        </defs>
+                        <path
+                            class="founder-line"
+                            d="M0,150 Q360,100 720,150 T1440,150"
+                            stroke="url(#founder-line-grad)"
+                            fill="none"
+                            stroke-width="1"
+                        />
+                        <path
+                            class="founder-line founder-line-2"
+                            d="M0,300 Q360,350 720,300 T1440,300"
+                            stroke="url(#founder-line-grad)"
+                            fill="none"
+                            stroke-width="1"
+                        />
+                        <path
+                            class="founder-line founder-line-3"
+                            d="M0,450 Q360,400 720,450 T1440,450"
+                            stroke="url(#founder-line-grad)"
+                            fill="none"
+                            stroke-width="1"
+                        />
+                    </svg>
+                </div>
+
+                <div class="container">
+                    <div class="founder-hero">
+                        <div class="founder-photo-wrapper">
+                            <div class="photo-ring"></div>
+                            <div class="photo-ring photo-ring-2"></div>
+                            <img
+                                src="img/cro.png"
+                                alt="Christophe Robert"
+                                class="founder-photo"
+                            />
+                            <div class="photo-glow"></div>
+                        </div>
+
+                        <div class="founder-intro">
+                            <div class="section-label">Le fondateur</div>
+                            <h2 class="founder-name">
+                                Christophe<br /><span>Robert</span>
+                            </h2>
+                            <p class="founder-role">
+                                Fondateur & Lead Developer
+                            </p>
+
+                            <div class="founder-actions">
+                                <a
+                                    href="https://www.linkedin.com/in/christopherobert84/"
+                                    target="_blank"
+                                    class="founder-btn founder-linkedin"
+                                >
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                        width="18"
+                                        height="18"
+                                    >
+                                        <path
+                                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                                        />
+                                    </svg>
+                                    LinkedIn
+                                </a>
+                                <a
+                                    href="/cv.html"
+                                    class="founder-btn founder-cv"
+                                >
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        width="18"
+                                        height="18"
+                                    >
+                                        <path
+                                            d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                                        />
+                                        <polyline points="14 2 14 8 20 8" />
+                                        <line x1="16" y1="13" x2="8" y2="13" />
+                                        <line x1="16" y1="17" x2="8" y2="17" />
+                                        <polyline points="10 9 9 9 8 9" />
+                                    </svg>
+                                    CV
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="founder-statement">
+                        <p class="statement-text">
+                            À la tête d'<strong>ALT STUDIO</strong>, je conçois
+                            et développe des solutions digitales sur mesure pour
+                            startups et PME. Pilotage de projets de A à Z, de
+                            l'idéation à la production.
+                        </p>
+                    </div>
+
+                    <div class="founder-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">+10</span>
+                            <span class="stat-label">Années d'expérience</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-number">+50</span>
+                            <span class="stat-label">Projets livrés</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-number">CTO</span>
+                            <span class="stat-label">As a Service</span>
+                        </div>
+                    </div>
+
+                    <div class="founder-cards">
+                        <div class="founder-card">
+                            <div class="card-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                >
+                                    <path
+                                        d="M12 15l-2 5l9-11h-6l2-5l-9 11h6z"
+                                    />
+                                </svg>
+                            </div>
+                            <h3>Expertise</h3>
+                            <p>
+                                Architecture logicielle, backend, frontend et
+                                infrastructure DevOps (CI/CD, Docker, cloud).
+                            </p>
+                        </div>
+
+                        <div class="founder-card">
+                            <div class="card-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                >
+                                    <path
+                                        d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                                    />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg>
+                            </div>
+                            <h3>Collectif</h3>
+                            <p>
+                                Je m'entoure d'un réseau de talents pour mener à
+                                bien les projets d'envergure.
+                            </p>
+                        </div>
+
+                        <div class="founder-card card-highlight">
+                            <div class="card-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                >
+                                    <circle cx="12" cy="8" r="7" />
+                                    <polyline
+                                        points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"
+                                    />
+                                </svg>
+                            </div>
+                            <h3>Vinci Hackathon</h3>
+                            <p>1er Prix 2015 — TagnCar</p>
+                        </div>
+                    </div>
+
+                    <div class="founder-timeline">
+                        <h3 class="timeline-title">Parcours</h3>
+                        <div class="timeline-items">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date"
+                                        >2018 — Présent</span
+                                    >
+                                    <span class="timeline-role"
+                                        >Fondateur @ Altstud.IO</span
+                                    >
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date"
+                                        >2020 — 2023</span
+                                    >
+                                    <span class="timeline-role"
+                                        >CTO @ CocoonCare</span
+                                    >
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <span class="timeline-date"
+                                        >2012 — 2018</span
+                                    >
+                                    <span class="timeline-role"
+                                        >Product Owner @ THE STUDNET</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="founder-certifs">
+                        <div class="certif-item">
+                            <span class="certif-badge">LPIC-1</span>
+                            <span class="certif-name"
+                                >Linux Professional Institute</span
+                            >
+                        </div>
+                        <div class="certif-item">
+                            <span class="certif-badge">Master</span>
+                            <span class="certif-name"
+                                >Chef de Projet — IMERIR</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="section contact">
+                <div class="container">
+                    <div class="contact-header">
+                        <div class="section-label">Parlons de votre projet</div>
+                        <h2 class="contact-title">
+                            Une idée ? Un projet ?<br />On en parle.
+                        </h2>
+                        <p class="contact-subtitle">
+                            MVP, refonte, renfort technique ou juste une
+                            question — écrivez-nous, on répond sous 24h.
+                        </p>
+                    </div>
+
+                    <div class="contact-wrapper">
+                        <div class="contact-form-container">
+                            <form class="contact-form" id="contactForm">
+                                <div class="form-group">
+                                    <label for="name">Votre nom</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        placeholder="Jean Dupont"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        placeholder="jean@startup.com"
+                                        required
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="project-type"
+                                        >Type de projet</label
+                                    >
+                                    <select
+                                        id="project-type"
+                                        name="project-type"
+                                    >
+                                        <option value="">
+                                            Sélectionnez...
+                                        </option>
+                                        <option value="mvp">
+                                            MVP / Nouveau projet
+                                        </option>
+                                        <option value="refonte">
+                                            Refonte / Migration
+                                        </option>
+                                        <option value="renfort">
+                                            Renfort technique
+                                        </option>
+                                        <option value="conseil">
+                                            Conseil / Audit
+                                        </option>
+                                        <option value="autre">Autre</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="message"
+                                        >Parlez-nous de votre projet</label
+                                    >
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        rows="5"
+                                        placeholder="Décrivez votre idée, vos besoins, votre timeline..."
+                                        required
+                                    ></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-submit">
+                                    Envoyer
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M5 12h14M12 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="contact-right">
+                            <div class="contact-info-box">
+                                <h3>Autres moyens de nous joindre</h3>
+                                <div class="contact-links">
+                                    <a
+                                        href="mailto:contact@altstud.io"
+                                        class="contact-link"
+                                    >
+                                        <span class="link-label">Email</span>
+                                        <span class="link-value"
+                                            >contact@altstud.io</span
+                                        >
+                                    </a>
+                                    <a
+                                        href="tel:+33641685102"
+                                        class="contact-link"
+                                    >
+                                        <span class="link-label"
+                                            >Téléphone</span
+                                        >
+                                        <span class="link-value"
+                                            >+33 6 41 68 51 02</span
+                                        >
+                                    </a>
+                                    <div class="contact-link">
+                                        <span class="link-label"
+                                            >Localisation</span
+                                        >
+                                        <span class="link-value"
+                                            >Golfe-Juan, France</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <span class="footer-logo">altstud<span>.IO</span></span>
+                    <p>&copy; 2025 — Tous droits réservés</p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="script.js" defer></script>
+    </body>
+</html>
