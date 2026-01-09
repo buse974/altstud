@@ -2,6 +2,7 @@ FROM nginx:alpine
 
 # Copy site files
 COPY index.html /usr/share/nginx/html/
+COPY cv.html /usr/share/nginx/html/
 COPY styles.css /usr/share/nginx/html/
 COPY script.js /usr/share/nginx/html/
 COPY contact.php /usr/share/nginx/html/
