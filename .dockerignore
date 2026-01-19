@@ -4,7 +4,6 @@
 .claude
 .htaccess
 Dockerfile
-nginx.conf
 CLAUDE.md
 SETUP-CICD.md
 *.md
