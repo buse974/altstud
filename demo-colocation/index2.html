@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logement Contre Services | Colocation Adulte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <!-- Grain Overlay -->
+    <div class="grain"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">
+                    <span class="logo-text">Colocation<em>Adulte</em></span>
+                </a>
+                <div class="nav-links">
+                    <a href="#" class="nav-link">Annonces</a>
+                    <a href="#" class="nav-link">Concept</a>
+                    <a href="#" class="nav-link">Temoignages</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-text">Connexion</button>
+                    <button class="btn btn-primary">Inscription</button>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="mobileMenuClose">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <nav class="mobile-nav">
+            <a href="#">Annonces</a>
+            <a href="#">Concept</a>
+            <a href="#">Temoignages</a>
+            <a href="#">Contact</a>
+        </nav>
+        <div class="mobile-actions">
+            <button class="btn btn-outline btn-full">Connexion</button>
+            <button class="btn btn-primary btn-full">Inscription</button>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-texture"></div>
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-tag">
+                        <span class="tag-dot"></span>
+                        Nouveau concept d habitat
+                    </div>
+                    <h1 class="hero-title">
+                        L art de vivre 
+                        <span class="title-accent">ensemble</span>
+                    </h1>
+                    <p class="hero-text">
+                        Decouvrez une nouvelle facon d habiter. Echangez des services 
+                        contre un logement dans une communaute bienveillante et verifiee.
+                    </p>
+                    <div class="hero-cta">
+                        <button class="btn btn-primary btn-lg">
+                            Explorer les annonces
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                        <button class="btn btn-outline btn-lg">Deposer une annonce</button>
+                    </div>
+                    <div class="hero-proof">
+                        <div class="proof-avatars">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop" alt="">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop" alt="">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop" alt="">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop" alt="">
+                            <span class="avatar-more">+2k</span>
+                        </div>
+                        <p>Rejoignez <strong>15,000+</strong> membres satisfaits</p>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="visual-frame">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=750&fit=crop" alt="Maison moderne" class="visual-img">
+                        <div class="visual-card visual-card-1">
+                            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                            <div class="card-text">
+                                <strong>100%</strong>
+                                <span>Verifies</span>
+                            </div>
+                        </div>
+                        <div class="visual-card visual-card-2">
+                            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                            <div class="card-text">
+                                <strong>4.9/5</strong>
+                                <span>Satisfaction</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span>Defiler</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-track">
+            <span>Aide aux seniors</span><span class="marquee-dot"></span>
+            <span>Baby-sitting</span><span class="marquee-dot"></span>
+            <span>Gardiennage</span><span class="marquee-dot"></span>
+            <span>Pet-sitting</span><span class="marquee-dot"></span>
+            <span>Bricolage</span><span class="marquee-dot"></span>
+            <span>Jardinage</span><span class="marquee-dot"></span>
+            <span>Aide menagere</span><span class="marquee-dot"></span>
+            <span>Compagnie</span><span class="marquee-dot"></span>
+            <span>Aide aux seniors</span><span class="marquee-dot"></span>
+            <span>Baby-sitting</span><span class="marquee-dot"></span>
+            <span>Gardiennage</span><span class="marquee-dot"></span>
+            <span>Pet-sitting</span><span class="marquee-dot"></span>
+            <span>Bricolage</span><span class="marquee-dot"></span>
+            <span>Jardinage</span><span class="marquee-dot"></span>
+            <span>Aide menagere</span><span class="marquee-dot"></span>
+            <span>Compagnie</span><span class="marquee-dot"></span>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-label">
+                    <span class="label-line"></span>
+                    <span>Notre vision</span>
+                </div>
+                <div class="about-content">
+                    <h2 class="about-title">
+                        Reinventer le <em>partage</em> du logement
+                    </h2>
+                    <p class="about-text">
+                        Dans un monde ou le logement devient un luxe, nous croyons en l entraide. 
+                        Notre plateforme connecte des personnes qui ont de l espace avec celles 
+                        qui ont du temps et des competences a offrir.
+                    </p>
+                </div>
+            </div>
+            <div class="about-stats">
+                <div class="stat-item">
+                    <span class="stat-number">2,500+</span>
+                    <span class="stat-label">Annonces actives</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Taux de satisfaction</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Villes couvertes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24h</span>
+                    <span class="stat-label">Delai de reponse moyen</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services">
+        <div class="services-texture"></div>
+        <div class="container">
+            <div class="section-header">
+                <div class="header-label">
+                    <span class="label-line"></span>
+                    <span>Services</span>
+                </div>
+                <h2 class="section-title">Ce que vous pouvez <em>echanger</em></h2>
+            </div>
+            <div class="services-grid">
+                <article class="service-card service-card-large">
+                    <div class="service-number">01</div>
+                    <div class="service-content">
+                        <h3>Aide aux seniors</h3>
+                        <p>Compagnie quotidienne, aide aux courses, accompagnement medical et presence rassurante pour nos aines.</p>
+                        <span class="service-tag">450+ annonces</span>
+                    </div>
+                    <div class="service-visual">
+                        <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=400&h=300&fit=crop" alt="">
+                    </div>
+                </article>
+                <article class="service-card">
+                    <div class="service-number">02</div>
+                    <h3>Baby-sitting</h3>
+                    <p>Garde d enfants, aide aux devoirs et activites ludiques.</p>
+                    <span class="service-tag">380+ annonces</span>
+                </article>
+                <article class="service-card">
+                    <div class="service-number">03</div>
+                    <h3>Gardiennage</h3>
+                    <p>Surveillance du domicile et entretien courant.</p>
+                    <span class="service-tag">290+ annonces</span>
+                </article>
+                <article class="service-card">
+                    <div class="service-number">04</div>
+                    <h3>Pet-sitting</h3>
+                    <p>Garde d animaux, promenades et soins quotidiens.</p>
+                    <span class="service-tag">210+ annonces</span>
+                </article>
+                <article class="service-card">
+                    <div class="service-number">05</div>
+                    <h3>Jardinage</h3>
+                    <p>Entretien du jardin, plantation et amenagement.</p>
+                    <span class="service-tag">175+ annonces</span>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Listings -->
+    <section class="listings">
+        <div class="container">
+            <div class="section-header section-header-split">
+                <div>
+                    <div class="header-label">
+                        <span class="label-line"></span>
+                        <span>Annonces</span>
+                    </div>
+                    <h2 class="section-title">Dernieres <em>opportunites</em></h2>
+                </div>
+                <a href="#" class="btn btn-outline">
+                    Voir tout
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div class="listings-grid">
+                <article class="listing-card">
+                    <div class="listing-image">
+                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=350&fit=crop" alt="">
+                        <span class="listing-badge">Offre</span>
+                    </div>
+                    <div class="listing-content">
+                        <div class="listing-meta">
+                            <span class="meta-location">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                Paris 15e
+                            </span>
+                            <span class="meta-type">Chambre</span>
+                        </div>
+                        <h3 class="listing-title">Chambre lumineuse contre compagnie</h3>
+                        <p class="listing-desc">Belle chambre de 16m2 dans appartement calme. Recherche personne bienveillante.</p>
+                        <div class="listing-footer">
+                            <div class="listing-author">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop" alt="">
+                                <div>
+                                    <strong>Marie</strong>
+                                    <span>Verifiee</span>
+                                </div>
+                            </div>
+                            <div class="listing-price">
+                                <strong>Gratuit</strong>
+                                <span>+ charges</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="listing-card">
+                    <div class="listing-image">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&h=350&fit=crop" alt="">
+                        <span class="listing-badge listing-badge-alt">Recherche</span>
+                    </div>
+                    <div class="listing-content">
+                        <div class="listing-meta">
+                            <span class="meta-location">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                Lyon
+                            </span>
+                            <span class="meta-type">Appartement</span>
+                        </div>
+                        <h3 class="listing-title">Etudiant propose baby-sitting</h3>
+                        <p class="listing-desc">Etudiant serieux en master. Experience avec les enfants, patient et pedagogue.</p>
+                        <div class="listing-footer">
+                            <div class="listing-author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" alt="">
+                                <div>
+                                    <strong>Thomas</strong>
+                                    <span>Verifie</span>
+                                </div>
+                            </div>
+                            <div class="listing-price">
+                                <strong>Max 300EUR</strong>
+                                <span>/mois</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="listing-card">
+                    <div class="listing-image">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500&h=350&fit=crop" alt="">
+                        <span class="listing-badge">Offre</span>
+                    </div>
+                    <div class="listing-content">
+                        <div class="listing-meta">
+                            <span class="meta-location">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                Bordeaux
+                            </span>
+                            <span class="meta-type">Maison</span>
+                        </div>
+                        <h3 class="listing-title">Grande maison avec jardin</h3>
+                        <p class="listing-desc">Maison de 150m2 avec jardin. Recherche aide pour entretien exterieur.</p>
+                        <div class="listing-footer">
+                            <div class="listing-author">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop" alt="">
+                                <div>
+                                    <strong>Jean-Pierre</strong>
+                                    <span>Verifie</span>
+                                </div>
+                            </div>
+                            <div class="listing-price">
+                                <strong>150EUR</strong>
+                                <span>/mois</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section class="process">
+        <div class="process-texture"></div>
+        <div class="container">
+            <div class="section-header section-header-center">
+                <div class="header-label header-label-center">
+                    <span class="label-line"></span>
+                    <span>Processus</span>
+                    <span class="label-line"></span>
+                </div>
+                <h2 class="section-title">Comment ca <em>fonctionne</em></h2>
+            </div>
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="step-number">01</div>
+                    <h3>Creez votre profil</h3>
+                    <p>Inscription gratuite avec verification d identite pour garantir la securite de tous.</p>
+                </div>
+                <div class="process-line"></div>
+                <div class="process-step">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    </div>
+                    <div class="step-number">02</div>
+                    <h3>Explorez les annonces</h3>
+                    <p>Parcourez les offres ou publiez la votre selon vos besoins et competences.</p>
+                </div>
+                <div class="process-line"></div>
+                <div class="process-step">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div class="step-number">03</div>
+                    <h3>Echangez</h3>
+                    <p>Contactez les membres via notre messagerie securisee et rencontrez-vous.</p>
+                </div>
+                <div class="process-line"></div>
+                <div class="process-step">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="step-number">04</div>
+                    <h3>Emmenagez</h3>
+                    <p>Signez votre contrat avec nos modeles conformes et commencez l aventure.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <div class="header-label">
+                    <span class="label-line"></span>
+                    <span>Temoignages</span>
+                </div>
+                <h2 class="section-title">Ce qu ils en <em>disent</em></h2>
+            </div>
+            <div class="testimonials-grid">
+                <blockquote class="testimonial-card testimonial-featured">
+                    <div class="quote-mark">"</div>
+                    <p class="quote-text">Grace a cette plateforme, j ai trouve bien plus qu un logement. J ai trouve une famille. Marie m a accueillie chez elle et nous partageons de merveilleux moments ensemble.</p>
+                    <footer class="quote-author">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop" alt="">
+                        <div>
+                            <strong>Sophie Martin</strong>
+                            <span>Aide-soignante, Nantes</span>
+                        </div>
+                    </footer>
+                </blockquote>
+                <blockquote class="testimonial-card">
+                    <p class="quote-text">Un concept genial qui m a permis de financer mes etudes tout en vivant dans un quartier que je n aurais jamais pu m offrir.</p>
+                    <footer class="quote-author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop" alt="">
+                        <div>
+                            <strong>Thomas Dubois</strong>
+                            <span>Etudiant, Lyon</span>
+                        </div>
+                    </footer>
+                </blockquote>
+                <blockquote class="testimonial-card">
+                    <p class="quote-text">Depuis que Lea est arrivee, ma maison revit. Elle s occupe du jardin et on partage le diner chaque soir.</p>
+                    <footer class="quote-author">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop" alt="">
+                        <div>
+                            <strong>Jean-Pierre Moreau</strong>
+                            <span>Retraite, Bordeaux</span>
+                        </div>
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="cta-texture"></div>
+        <div class="container">
+            <div class="cta-content">
+                <h2>Pret a rejoindre <em>l aventure</em> ?</h2>
+                <p>Des milliers de personnes ont deja trouve leur bonheur. Et vous ?</p>
+                <div class="cta-actions">
+                    <button class="btn btn-white btn-lg">
+                        Commencer maintenant
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-texture"></div>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <span class="logo-text">Colocation<em>Adulte</em></span>
+                    </a>
+                    <p>La plateforme de reference pour le logement contre services en France.</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Restez informe</h4>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Votre email">
+                        <button class="btn btn-primary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h5>Navigation</h5>
+                    <ul>
+                        <li><a href="#">Accueil</a></li>
+                        <li><a href="#">Annonces</a></li>
+                        <li><a href="#">Comment ca marche</a></li>
+                        <li><a href="#">Temoignages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Services</h5>
+                    <ul>
+                        <li><a href="#">Aide aux seniors</a></li>
+                        <li><a href="#">Baby-sitting</a></li>
+                        <li><a href="#">Gardiennage</a></li>
+                        <li><a href="#">Jardinage</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="#">CGU</a></li>
+                        <li><a href="#">Confidentialite</a></li>
+                        <li><a href="#">Mentions legales</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Suivez-nous</h5>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227a3.81 3.81 0 01-.899 1.382 3.744 3.744 0 01-1.38.896c-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421a3.716 3.716 0 01-1.379-.899 3.644 3.644 0 01-.9-1.38c-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 100 12.324 6.162 6.162 0 100-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 11-2.88 0 1.441 1.441 0 012.88 0z"/></svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>2024 Colocation Adulte. Tous droits reserves.</p>
+                <p>Fait avec soin en France</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script2.js"></script>
+</body>
+</html>
