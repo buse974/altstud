@@ -1,0 +1,10 @@
+.git
+.github
+.gitignore
+.claude
+.htaccess
+Dockerfile
+nginx.conf
+CLAUDE.md
+SETUP-CICD.md
+*.md
