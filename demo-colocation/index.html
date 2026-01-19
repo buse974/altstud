@@ -3,302 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logement Contre Services | Colocation Adulte</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Demo Redesign | Colocation Adulte</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            padding: 2rem;
+        }
+        .container {
+            text-align: center;
+            max-width: 800px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            color: rgba(255,255,255,0.7);
+        }
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            font-size: 1.125rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 4rem;
+            line-height: 1.7;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .option {
+            position: relative;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1.5rem;
+            padding: 3rem 2rem;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        .option::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .option:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+        .option:hover::before {
+            opacity: 1;
+        }
+        .option-number {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+        .option h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        .option p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .option-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+        }
+        .option:hover .option-cta {
+            color: #fff;
+            gap: 0.75rem;
+        }
+        .option-cta svg {
+            width: 1rem;
+            height: 1rem;
+            transition: transform 0.3s ease;
+        }
+        .option:hover .option-cta svg {
+            transform: translateX(4px);
+        }
+        .option-1:hover { border-color: #6366f1; box-shadow: 0 30px 60px rgba(99, 102, 241, 0.2); }
+        .option-1:hover .option-cta { color: #a5b4fc; }
+        .option-2:hover { border-color: #2d5a27; box-shadow: 0 30px 60px rgba(45, 90, 39, 0.2); }
+        .option-2:hover .option-cta { color: #86efac; }
+        .footer {
+            margin-top: 4rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.3);
+        }
+        @media (max-width: 640px) {
+            .options { gap: 1.5rem; }
+            .option { padding: 2rem 1.5rem; }
+            .option-number { font-size: 3.5rem; }
+        }
+    </style>
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <a href="#" class="logo">
-                    <div class="logo-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                            <polyline points="9 22 9 12 15 12 15 22"/>
-                        </svg>
-                    </div>
-                    <span>Colocation<strong>Adulte</strong></span>
-                </a>
-                <div class="nav-links">
-                    <a href="#" class="nav-link">Annonces</a>
-                    <a href="#" class="nav-link">Comment ca marche</a>
-                    <a href="#" class="nav-link">Contact</a>
-                </div>
-                <div class="nav-actions">
-                    <button class="btn btn-ghost">Se connecter</button>
-                    <button class="btn btn-primary">S inscrire</button>
-                </div>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <span></span><span></span><span></span>
-                </button>
-            </nav>
+    <div class="container">
+        <div class="badge">Proposition de redesign</div>
+        <h1>Colocation Adulte</h1>
+        <p class="subtitle">
+            Deux visions pour moderniser votre plateforme.<br>
+            Cliquez pour decouvrir chaque option.
+        </p>
+        
+        <div class="options">
+            <a href="maquette1.html" class="option option-1">
+                <div class="option-number">01</div>
+                <h2>Minimaliste</h2>
+                <p>Design epure, moderne et lumineux. Palette indigo/violet avec des ombres douces et des micro-interactions elegantes.</p>
+                <span class="option-cta">
+                    Decouvrir
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+            </a>
+            
+            <a href="maquette2.html" class="option option-2">
+                <div class="option-number">02</div>
+                <h2>Editorial</h2>
+                <p>Style magazine avec textures subtiles, typographie serif elegante et palette nature. Plus graphique et chaleureux.</p>
+                <span class="option-cta">
+                    Decouvrir
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+            </a>
         </div>
-    </header>
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-content">
-            <a href="#" class="mobile-nav-link">Annonces</a>
-            <a href="#" class="mobile-nav-link">Comment ca marche</a>
-            <a href="#" class="mobile-nav-link">Contact</a>
-            <div class="mobile-menu-actions">
-                <button class="btn btn-ghost btn-full">Se connecter</button>
-                <button class="btn btn-primary btn-full">S inscrire</button>
-            </div>
-        </div>
+        
+        <p class="footer">Demo privee - Ne pas diffuser</p>
     </div>
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">Logement contre services</div>
-                <h1 class="hero-title">Trouvez une <span class="gradient-text">chambre gratuite</span> en echange de services</h1>
-                <p class="hero-subtitle">Rejoignez une communaute de confiance ou logeurs et candidats s entraident au quotidien. Baby-sitting, aide aux seniors, jardinage et plus encore.</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary btn-lg">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                        Voir les annonces
-                    </button>
-                    <button class="btn btn-outline btn-lg">Deposer une annonce</button>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat"><span class="stat-number">2,500+</span><span class="stat-label">Annonces actives</span></div>
-                    <div class="stat-divider"></div>
-                    <div class="stat"><span class="stat-number">15,000+</span><span class="stat-label">Membres verifies</span></div>
-                    <div class="stat-divider"></div>
-                    <div class="stat"><span class="stat-number">98%</span><span class="stat-label">Satisfaction</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="services">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Services proposes</h2>
-                <p class="section-subtitle">Decouvrez les differents types de services echanges sur notre plateforme</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon service-icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-                    <h3 class="service-title">Aide aux seniors</h3>
-                    <p class="service-desc">Compagnie, courses, aide administrative et presence rassurante</p>
-                    <span class="service-count">450+ annonces</span>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon service-icon-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
-                    <h3 class="service-title">Baby-sitting</h3>
-                    <p class="service-desc">Garde d enfants, aide aux devoirs et activites ludiques</p>
-                    <span class="service-count">380+ annonces</span>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon service-icon-emerald"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                    <h3 class="service-title">Gardiennage</h3>
-                    <p class="service-desc">Surveillance du domicile, entretien courant et securite</p>
-                    <span class="service-count">290+ annonces</span>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon service-icon-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg></div>
-                    <h3 class="service-title">Pet-sitting</h3>
-                    <p class="service-desc">Garde d animaux, promenades et soins quotidiens</p>
-                    <span class="service-count">210+ annonces</span>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon service-icon-violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
-                    <h3 class="service-title">Bricolage</h3>
-                    <p class="service-desc">Petits travaux, reparations et entretien du logement</p>
-                    <span class="service-count">175+ annonces</span>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon service-icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-                    <h3 class="service-title">Aide menagere</h3>
-                    <p class="service-desc">Menage, repassage, courses et preparation des repas</p>
-                    <span class="service-count">320+ annonces</span>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="search-section">
-        <div class="container">
-            <div class="search-box">
-                <div class="search-header">
-                    <h3>Rechercher une annonce</h3>
-                    <p>Affinez votre recherche selon vos criteres</p>
-                </div>
-                <div class="search-filters">
-                    <div class="filter-group">
-                        <label class="filter-label">Type</label>
-                        <select class="filter-select"><option>Tous les types</option><option>Offre</option><option>Recherche</option></select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Service</label>
-                        <select class="filter-select"><option>Tous</option><option>Aide seniors</option><option>Baby-sitting</option><option>Gardiennage</option></select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Localisation</label>
-                        <input type="text" class="filter-input" placeholder="Ville ou code postal">
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Budget max</label>
-                        <select class="filter-select"><option>Peu importe</option><option>Gratuit</option><option>200 EUR</option><option>400 EUR</option></select>
-                    </div>
-                    <button class="btn btn-primary btn-search">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                        Rechercher
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="listings">
-        <div class="container">
-            <div class="section-header section-header-row">
-                <div><h2 class="section-title">Annonces recentes</h2><p class="section-subtitle">Decouvrez les dernieres offres</p></div>
-                <a href="#" class="btn btn-outline">Voir toutes les annonces</a>
-            </div>
-            <div class="listings-grid">
-                <article class="listing-card">
-                    <div class="listing-badge listing-badge-offer">Offre</div>
-                    <div class="listing-header">
-                        <div class="listing-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Marie"><span class="online-dot"></span></div>
-                        <div class="listing-user"><h4>Marie, 68 ans</h4><p>Paris 15e</p></div>
-                        <div class="listing-verified"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Verifiee</div>
-                    </div>
-                    <div class="listing-content">
-                        <h3 class="listing-title">Chambre spacieuse contre compagnie et aide quotidienne</h3>
-                        <p class="listing-desc">Je propose une chambre de 16m2 dans mon appartement lumineux. Recherche personne bienveillante.</p>
-                        <div class="listing-tags"><span class="tag">Aide seniors</span><span class="tag">Compagnie</span><span class="tag">Courses</span></div>
-                    </div>
-                    <div class="listing-footer">
-                        <div class="listing-price"><span class="price-amount">Gratuit</span><span class="price-label">+ charges</span></div>
-                        <button class="btn btn-primary btn-sm">Contacter</button>
-                    </div>
-                </article>
-                <article class="listing-card">
-                    <div class="listing-badge listing-badge-search">Recherche</div>
-                    <div class="listing-header">
-                        <div class="listing-avatar"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Thomas"><span class="online-dot"></span></div>
-                        <div class="listing-user"><h4>Thomas, 24 ans</h4><p>Lyon</p></div>
-                        <div class="listing-verified"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Verifie</div>
-                    </div>
-                    <div class="listing-content">
-                        <h3 class="listing-title">Etudiant serieux propose baby-sitting et aide aux devoirs</h3>
-                        <p class="listing-desc">Etudiant en master, je cherche un logement contre services. Experience avec enfants.</p>
-                        <div class="listing-tags"><span class="tag">Baby-sitting</span><span class="tag">Aide devoirs</span><span class="tag">Etudiant</span></div>
-                    </div>
-                    <div class="listing-footer">
-                        <div class="listing-price"><span class="price-amount">Max 300 EUR</span><span class="price-label">/mois</span></div>
-                        <button class="btn btn-primary btn-sm">Contacter</button>
-                    </div>
-                </article>
-                <article class="listing-card">
-                    <div class="listing-badge listing-badge-offer">Offre</div>
-                    <div class="listing-header">
-                        <div class="listing-avatar"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" alt="Jean-Pierre"></div>
-                        <div class="listing-user"><h4>Jean-Pierre, 72 ans</h4><p>Bordeaux</p></div>
-                        <div class="listing-verified"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Verifie</div>
-                    </div>
-                    <div class="listing-content">
-                        <h3 class="listing-title">Grande maison avec jardin - recherche aide jardinage</h3>
-                        <p class="listing-desc">Maison de 150m2 avec grand jardin. Cherche personne aimant la nature.</p>
-                        <div class="listing-tags"><span class="tag">Jardinage</span><span class="tag">Bricolage</span><span class="tag">Maison</span></div>
-                    </div>
-                    <div class="listing-footer">
-                        <div class="listing-price"><span class="price-amount">150 EUR</span><span class="price-label">/mois</span></div>
-                        <button class="btn btn-primary btn-sm">Contacter</button>
-                    </div>
-                </article>
-                <article class="listing-card">
-                    <div class="listing-badge listing-badge-search">Recherche</div>
-                    <div class="listing-header">
-                        <div class="listing-avatar"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" alt="Sophie"><span class="online-dot"></span></div>
-                        <div class="listing-user"><h4>Sophie, 35 ans</h4><p>Nantes</p></div>
-                        <div class="listing-verified"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Verifiee</div>
-                    </div>
-                    <div class="listing-content">
-                        <h3 class="listing-title">Aide-soignante propose garde de nuit et soins</h3>
-                        <p class="listing-desc">Professionnelle experimentee, je propose mes services aupres de personnes agees.</p>
-                        <div class="listing-tags"><span class="tag">Aide seniors</span><span class="tag">Soins</span><span class="tag">Nuit</span></div>
-                    </div>
-                    <div class="listing-footer">
-                        <div class="listing-price"><span class="price-amount">Gratuit</span><span class="price-label">souhaite</span></div>
-                        <button class="btn btn-primary btn-sm">Contacter</button>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
-    <section class="how-it-works">
-        <div class="container">
-            <div class="section-header section-header-center">
-                <h2 class="section-title">Comment ca marche ?</h2>
-                <p class="section-subtitle">Un processus simple et securise en 4 etapes</p>
-            </div>
-            <div class="steps-grid">
-                <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Creez votre profil</h3><p>Inscrivez-vous gratuitement et completez votre profil</p></div></div>
-                <div class="step-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-                <div class="step"><div class="step-number">2</div><div class="step-content"><h3>Deposez ou recherchez</h3><p>Publiez votre annonce ou parcourez les offres</p></div></div>
-                <div class="step-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-                <div class="step"><div class="step-number">3</div><div class="step-content"><h3>Echangez en securite</h3><p>Contactez les membres via notre messagerie</p></div></div>
-                <div class="step-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-                <div class="step"><div class="step-number">4</div><div class="step-content"><h3>Signez le contrat</h3><p>Formalisez votre accord avec nos modeles conformes</p></div></div>
-            </div>
-        </div>
-    </section>
-    <section class="trust">
-        <div class="container">
-            <div class="trust-grid">
-                <div class="trust-content">
-                    <h2>Une communaute de confiance</h2>
-                    <p>Nous verifions l identite de chaque membre pour garantir des echanges securises et de qualite.</p>
-                    <ul class="trust-list">
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Verification d identite obligatoire</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Extrait de casier judiciaire consultable</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Diplomes et CV verifies</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Messagerie securisee integree</li>
-                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Contrats types conformes</li>
-                    </ul>
-                    <button class="btn btn-primary btn-lg">Rejoindre la communaute</button>
-                </div>
-                <div class="trust-image">
-                    <div class="trust-card trust-card-1"><div class="trust-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span>100% Securise</span></div>
-                    <div class="trust-card trust-card-2"><div class="trust-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><span>15K+ Membres</span></div>
-                    <div class="trust-card trust-card-3"><div class="trust-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span>4.8/5 Note</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="cta">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Pret a trouver votre logement ideal ?</h2>
-                <p>Rejoignez des milliers de personnes qui ont deja trouve leur bonheur grace a l echange de services.</p>
-                <div class="cta-actions">
-                    <button class="btn btn-white btn-lg">Commencer gratuitement</button>
-                    <button class="btn btn-ghost-white btn-lg">En savoir plus</button>
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="#" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span>Colocation<strong>Adulte</strong></span></a>
-                    <p>La plateforme de reference pour le logement contre services en France.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-                        <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
-                        <a href="#" class="social-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227a3.81 3.81 0 01-.899 1.382 3.744 3.744 0 01-1.38.896c-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421a3.716 3.716 0 01-1.379-.899 3.644 3.644 0 01-.9-1.38c-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 100 12.324 6.162 6.162 0 100-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 11-2.88 0 1.441 1.441 0 012.88 0z"/></svg></a>
-                    </div>
-                </div>
-                <div class="footer-links"><h4>Navigation</h4><ul><li><a href="#">Accueil</a></li><li><a href="#">Voir les annonces</a></li><li><a href="#">Deposer une annonce</a></li><li><a href="#">Comment ca marche</a></li></ul></div>
-                <div class="footer-links"><h4>Services</h4><ul><li><a href="#">Aide aux seniors</a></li><li><a href="#">Baby-sitting</a></li><li><a href="#">Gardiennage</a></li><li><a href="#">Pet-sitting</a></li><li><a href="#">Bricolage</a></li></ul></div>
-                <div class="footer-links"><h4>Legal</h4><ul><li><a href="#">CGU</a></li><li><a href="#">Politique de confidentialite</a></li><li><a href="#">Mentions legales</a></li><li><a href="#">Contact</a></li></ul></div>
-            </div>
-            <div class="footer-bottom"><p>2024 Colocation Adulte. Tous droits reserves.</p></div>
-        </div>
-    </footer>
-    <script src="script.js"></script>
 </body>
 </html>
