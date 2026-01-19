@@ -9,6 +9,7 @@ COPY contact.php /usr/share/nginx/html/
 COPY robots.txt /usr/share/nginx/html/
 COPY sitemap.xml /usr/share/nginx/html/
 COPY img/ /usr/share/nginx/html/img/
+COPY demo-colocation/ /usr/share/nginx/html/demo-colocation/
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
