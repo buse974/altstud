@@ -1280,6 +1280,25 @@ ul {
     margin-bottom: 1rem;
 }
 
+.lab-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.lab-stack span {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.25rem 0.6rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 20px;
+    color: rgba(239, 68, 68, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
 .lab-link {
     display: inline-flex;
     align-items: center;
