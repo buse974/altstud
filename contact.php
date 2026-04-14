@@ -46,7 +46,7 @@ $body .= "--------\r\n";
 $body .= "$message\r\n";
 
 // Envoi via SMTP (postfix sur le même réseau Docker)
-$from = "noreply@altstud.io";
+$from = "noreply@ti1.fr";
 
 $smtp = @fsockopen('postfix', 25, $errno, $errstr, 5);
 if (!$smtp) {
@@ -74,7 +74,7 @@ $ok = $ok && str_starts_with(smtpSend($smtp, "MAIL FROM:<$from>"), "250");
 $ok = $ok && str_starts_with(smtpSend($smtp, "RCPT TO:<" . NOTIFY_EMAIL . ">"), "250");
 $ok = $ok && str_starts_with(smtpSend($smtp, "DATA"), "354");
 
-$messageId = sprintf('<%s.%s@altstud.io>', bin2hex(random_bytes(8)), time());
+$messageId = sprintf('<%s.%s@ti1.fr>', bin2hex(random_bytes(8)), time());
 
 $data = "Message-ID: $messageId\r\n";
 $data .= "Date: " . date(DATE_RFC2822) . "\r\n";
