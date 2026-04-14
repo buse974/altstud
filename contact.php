@@ -45,17 +45,49 @@ $body .= "Message:\r\n";
 $body .= "--------\r\n";
 $body .= "$message\r\n";
 
-// Headers améliorés pour éviter les spams
-$headers = [];
-$headers[] = "MIME-Version: 1.0";
-$headers[] = "Content-Type: text/plain; charset=UTF-8";
-$headers[] = "From: Altstud.IO <noreply@altstud.io>";
-$headers[] = "Reply-To: $name <$email>";
-$headers[] = "Return-Path: noreply@altstud.io";
-$headers[] = "X-Mailer: Altstud.IO Contact Form";
-$headers[] = "X-Priority: 1";
+// Envoi via SMTP (postfix sur le même réseau Docker)
+$from = "noreply@altstud.io";
 
-if (mail(NOTIFY_EMAIL, $subject, $body, implode("\r\n", $headers))) {
+$smtp = @fsockopen('postfix', 25, $errno, $errstr, 5);
+if (!$smtp) {
+    jsonResponse(false, "Erreur connexion SMTP", 500);
+}
+
+function smtpRead($smtp) {
+    $response = "";
+    while ($line = fgets($smtp, 515)) {
+        $response .= $line;
+        if (substr($line, 3, 1) === " ") break;
+    }
+    return $response;
+}
+
+function smtpSend($smtp, $cmd) {
+    fwrite($smtp, $cmd . "\r\n");
+    return smtpRead($smtp);
+}
+
+$ok = true;
+smtpRead($smtp); // greeting
+$ok = $ok && str_starts_with(smtpSend($smtp, "EHLO altstud.io"), "250");
+$ok = $ok && str_starts_with(smtpSend($smtp, "MAIL FROM:<$from>"), "250");
+$ok = $ok && str_starts_with(smtpSend($smtp, "RCPT TO:<" . NOTIFY_EMAIL . ">"), "250");
+$ok = $ok && str_starts_with(smtpSend($smtp, "DATA"), "354");
+
+$data = "From: Altstud.IO <$from>\r\n";
+$data .= "Reply-To: $name <$email>\r\n";
+$data .= "To: " . NOTIFY_EMAIL . "\r\n";
+$data .= "Subject: $subject\r\n";
+$data .= "MIME-Version: 1.0\r\n";
+$data .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$data .= "\r\n";
+$data .= $body;
+
+$ok = $ok && str_starts_with(smtpSend($smtp, "$data\r\n."), "250");
+smtpSend($smtp, "QUIT");
+fclose($smtp);
+
+if ($ok) {
     jsonResponse(true, "Message envoyé avec succès !");
 } else {
     jsonResponse(false, 'Erreur lors de l\'envoi', 500);

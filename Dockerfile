@@ -1,11 +1,9 @@
-FROM nginx:alpine
+FROM php:8-apache
+
+# Enable mod_rewrite for .htaccess
+RUN a2enmod rewrite
 
 # Copy all site files
-COPY . /usr/share/nginx/html/
-
-# Copy nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY . /var/www/html/
 
 EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]

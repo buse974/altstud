@@ -1,11 +1,6 @@
-# Force HTTPS
 RewriteEngine On
-RewriteCond %{ENV:HTTPS} !on
-RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Redirect www to non-www (ou inverse selon ta préférence)
-RewriteCond %{HTTP_HOST} ^www\.altstud\.io [NC]
-RewriteRule ^(.*)$ https://altstud.io/$1 [L,R=301]
+# HTTPS et www→non-www sont gérés par Traefik
 
 # Security Headers
 <IfModule mod_headers.c>
