@@ -2,18 +2,45 @@ RewriteEngine On
 
 # HTTPS et www→non-www sont gérés par Traefik
 
-# Security Headers
+# === Markdown for Agents — content negotiation ===
+# When the client sends Accept: text/markdown, route through markdown.php
+# which serves the corresponding .md representation.
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_ACCEPT} text/markdown [NC]
+    RewriteCond %{REQUEST_URI} !\.(css|js|png|jpe?g|gif|svg|ico|woff2?|md|php|xml|txt|json)$ [NC]
+    RewriteRule ^.*$ /markdown.php [L]
+</IfModule>
+
+# === Headers ===
 <IfModule mod_headers.c>
+    # Security
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Content Signals (declares AI usage preferences) — RFC draft-romm-aipref-contentsignals
+    Header set Content-Signal "ai-train=no, search=yes, ai-input=yes"
+
+    # Link headers for agent discovery (RFC 8288)
+    Header append Link "</sitemap.xml>; rel=\"sitemap\""
+    Header append Link "<https://www.linkedin.com/in/christopherobert84/>; rel=\"author\""
+    Header append Link "</index.md>; rel=\"alternate\"; type=\"text/markdown\""
+
+    # Content negotiation hint
+    Header append Vary "Accept"
 </IfModule>
 
-# Cache Control - Améliore la vitesse
+# Serve .md files with text/markdown by default
+<FilesMatch "\.md$">
+    ForceType "text/markdown; charset=utf-8"
+</FilesMatch>
+
+# Cache Control
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType text/html "access plus 1 hour"
+    ExpiresByType text/markdown "access plus 1 hour"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
     ExpiresByType image/png "access plus 1 year"
@@ -32,14 +59,14 @@ RewriteEngine On
     AddOutputFilterByType DEFLATE text/css
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE text/markdown
     AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
 
 # Empêcher l'accès aux fichiers sensibles
 <FilesMatch "(^\.htaccess|\.sql|\.log)$">
-    Order allow,deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
-# Page d'erreur personnalisée (optionnel)
+# Page d'erreur personnalisée
 ErrorDocument 404 /index.html

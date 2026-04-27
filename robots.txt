@@ -1,5 +1,10 @@
 # Robots.txt for altstud.io
 
+# Content Signals — declares AI usage preferences
+# https://contentsignals.org/
+# Allow search indexing and AI agent input, but not training.
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
 User-agent: *
 Allow: /
 

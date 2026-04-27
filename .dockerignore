@@ -2,8 +2,9 @@
 .github
 .gitignore
 .claude
-.htaccess
+.project
+.workflows
+.dockerignore
 Dockerfile
 CLAUDE.md
 SETUP-CICD.md
-*.md
