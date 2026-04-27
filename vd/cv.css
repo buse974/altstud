@@ -1,0 +1,589 @@
+:root {
+    --bg: #0a0a0a;
+    --bg-light: #171717;
+    --white: #ffffff;
+    --gray-300: #d4d4d4;
+    --gray-400: #a3a3a3;
+    --gray-500: #737373;
+    --accent: #e879a9;
+    --accent-light: #fce7f3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        "Space Grotesk",
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    margin-bottom: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.photo-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+.photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+.header-info h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.header-info .role {
+    font-size: 1.2rem;
+    color: var(--gray-400);
+    margin-bottom: 1.5rem;
+}
+
+.contact-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.contact-item {
+    color: var(--gray-300);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.contact-item:hover {
+    color: var(--white);
+}
+
+.profil {
+    background: var(--bg-light);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 3rem;
+}
+
+.profil p {
+    color: var(--gray-300);
+    font-size: 1.05rem;
+}
+
+.section {
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray-500);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.skill-item {
+    background: var(--bg-light);
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+}
+
+.skill-item strong {
+    color: var(--white);
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.skill-item span {
+    color: var(--gray-400);
+    font-size: 0.9rem;
+}
+
+.experience-item {
+    margin-bottom: 2.5rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.experience-header {
+    margin-bottom: 1rem;
+}
+
+.experience-header h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.experience-header .company {
+    color: var(--gray-400);
+    font-size: 0.95rem;
+}
+
+.experience-header .date {
+    color: var(--gray-500);
+    font-size: 0.85rem;
+}
+
+.experience-list {
+    list-style: none;
+}
+
+.experience-list li {
+    color: var(--gray-300);
+    padding-left: 1rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.experience-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 4px;
+    height: 4px;
+    background: var(--gray-500);
+    border-radius: 50%;
+}
+
+.formation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.formation-item {
+    background: var(--bg-light);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.formation-item h4 {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.formation-item .school {
+    color: var(--gray-400);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.formation-item .year {
+    color: var(--gray-500);
+    font-size: 0.85rem;
+}
+
+/* Lettre de motivation */
+.lettre-motivation {
+    margin-top: 2rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lettre-content {
+    background: var(--bg-light);
+    padding: 2.5rem;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+}
+
+.lettre-header {
+    margin-bottom: 2rem;
+}
+
+.expediteur {
+    margin-bottom: 1.5rem;
+}
+
+.expediteur p,
+.destinataire p {
+    color: var(--gray-300);
+    margin: 0.2rem 0;
+    font-size: 0.95rem;
+}
+
+.destinataire {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.date-lettre {
+    text-align: right;
+    color: var(--gray-400);
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.objet {
+    margin: 2rem 0;
+    color: var(--white);
+    font-size: 1rem;
+}
+
+.corps-lettre p {
+    color: var(--gray-300);
+    margin-bottom: 1rem;
+    text-align: justify;
+    line-height: 1.7;
+}
+
+.formule {
+    margin-top: 1.5rem;
+}
+
+.signature {
+    margin-top: 2rem;
+    text-align: right;
+    font-weight: 500;
+    color: var(--white);
+}
+
+/* Boutons */
+.btn-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    gap: 1rem;
+    z-index: 100;
+}
+
+.print-btn {
+    background: var(--white);
+    color: var(--bg);
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+.print-btn:hover {
+    transform: scale(1.05);
+}
+
+.print-lettre {
+    background: var(--accent);
+    color: white;
+}
+
+.back-btn {
+    background: transparent;
+    color: var(--gray-400);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.back-btn:hover {
+    color: var(--white);
+    border-color: var(--white);
+    transform: scale(1.05);
+}
+
+/* Menu d'accueil */
+.menu-hero {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-hero .photo-placeholder {
+    margin: 0 auto 2rem;
+}
+
+.menu-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.menu-hero .subtitle {
+    color: var(--gray-400);
+    font-size: 1.1rem;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.menu-card {
+    background: var(--bg-light);
+    padding: 2rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition:
+        transform 0.2s,
+        border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.menu-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+}
+
+.menu-card h2 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--white);
+}
+
+.menu-card p {
+    color: var(--gray-400);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.menu-card .arrow {
+    color: var(--accent);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+
+    .print-btn,
+    .btn-container {
+        display: none !important;
+    }
+
+    /* Lettre de motivation print */
+    .lettre-motivation {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none;
+    }
+
+    .lettre-content {
+        background: white !important;
+        padding: 0;
+    }
+
+    .expediteur p,
+    .destinataire p {
+        color: #1f2937 !important;
+    }
+
+    .date-lettre {
+        color: #374151 !important;
+    }
+
+    .objet {
+        color: #1f2937 !important;
+    }
+
+    .corps-lettre p {
+        color: #1f2937 !important;
+    }
+
+    .signature {
+        color: #1f2937 !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+        font-size: 10pt;
+        line-height: 1.3;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .header {
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .photo-placeholder {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+        box-shadow: none !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .header-info h1 {
+        font-size: 1.8rem;
+    }
+
+    .header-info .role {
+        color: #374151 !important;
+    }
+
+    .contact-item {
+        color: #1f2937 !important;
+        font-weight: 500;
+    }
+
+    .profil {
+        background: #fce7f3 !important;
+        border-left: 4px solid #ec4899 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .profil p {
+        color: #831843 !important;
+    }
+
+    .skill-item {
+        background: #f0fdf4 !important;
+        border-left: 3px solid #10b981 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .skill-item strong {
+        color: #065f46 !important;
+    }
+
+    .formation-item {
+        background: #fef3c7 !important;
+        border-left: 3px solid #f59e0b !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .formation-item h4 {
+        color: #92400e !important;
+    }
+
+    .profil {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .section {
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        color: #333;
+        margin-bottom: 0.75rem;
+    }
+
+    .skills-grid {
+        gap: 0.5rem;
+    }
+
+    .skill-item {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .experience-item {
+        margin-bottom: 1rem;
+        break-inside: avoid;
+        border-left-color: #ec4899 !important;
+    }
+    .experience-header {
+        margin-bottom: 0.5rem;
+    }
+
+    .experience-header h3 {
+        color: #9d174d !important;
+    }
+
+    .experience-header .company {
+        color: #374151 !important;
+    }
+
+    .experience-list li {
+        color: #1f2937 !important;
+        margin-bottom: 0.4rem;
+    }
+
+    .formation-grid {
+        gap: 0.75rem;
+    }
+
+    .formation-item {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .photo-placeholder {
+        margin: 0 auto;
+    }
+    .contact-grid {
+        justify-content: center;
+    }
+    .btn-container {
+        bottom: 1rem;
+        right: 1rem;
+        flex-direction: column;
+    }
+}
