@@ -1,15 +1,11 @@
 # Robots.txt for altstud.io
 
+User-agent: *
 # Content Signals — declares AI usage preferences
 # https://contentsignals.org/
 # Allow search indexing and AI agent input, but not training.
 Content-Signal: ai-train=no, search=yes, ai-input=yes
-
-User-agent: *
 Allow: /
-
-# Sitemap
-Sitemap: https://altstud.io/sitemap.xml
 
 # Disallow admin/system files
 Disallow: /wp-admin/
@@ -21,3 +17,6 @@ Disallow: /contact.php
 # Allow CSS and JS for rendering
 Allow: /styles.css
 Allow: /script.js
+
+# Sitemap
+Sitemap: https://altstud.io/sitemap.xml
