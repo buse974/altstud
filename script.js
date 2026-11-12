@@ -90,6 +90,30 @@ if (contactForm) {
     btn.disabled = true;
 
     const formData = new FormData(contactForm);
+    const captcha = contactForm.querySelector("altcha-widget");
+
+    // Captcha pas encore validé : on le lance et on attend son résultat.
+    if (captcha && !formData.get("altcha")) {
+      btn.innerHTML = "Vérification anti-robot...";
+      try {
+        await captcha.verify();
+      } catch (err) {
+        console.error("Captcha:", err);
+      }
+      const payload = contactForm.querySelector('input[name="altcha"]')?.value;
+      if (!payload) {
+        btn.innerHTML = "Cochez la vérification anti-robot";
+        btn.style.background = "#ef4444";
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.background = "";
+          btn.disabled = false;
+        }, 3000);
+        return;
+      }
+      formData.set("altcha", payload);
+      btn.innerHTML = "Envoi en cours...";
+    }
 
     try {
       const response = await fetch("contact.php", {
@@ -103,6 +127,7 @@ if (contactForm) {
         btn.innerHTML = "Envoyé !";
         btn.style.background = "#22c55e";
         contactForm.reset();
+        captcha?.reset();
 
         setTimeout(() => {
           btn.innerHTML = originalText;
@@ -113,6 +138,8 @@ if (contactForm) {
         throw new Error(data.message);
       }
     } catch (error) {
+      // Un défi ALTCHA ne sert qu'une fois : il faut en résoudre un nouveau.
+      captcha?.reset();
       btn.innerHTML = "Erreur";
       btn.style.background = "#ef4444";
 

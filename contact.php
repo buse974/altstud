@@ -17,11 +17,33 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     jsonResponse(false, "Méthode non autorisée", 405);
 }
 
+// Anti-spam 1 : champ piège invisible, rempli seulement par les robots.
+// On répond « succès » pour ne rien leur apprendre, sans envoyer de mail.
+if (!empty($_POST["website"] ?? "")) {
+    jsonResponse(true, "Message envoyé avec succès !");
+}
+
+// Anti-spam 2 : captcha ALTCHA (preuve de travail calculée par le navigateur).
+require __DIR__ . "/altcha.php";
+$altchaKey = altcha_key();
+if (!$altchaKey) {
+    jsonResponse(false, "Formulaire momentanément indisponible", 503);
+}
+if (!altcha_verify($_POST["altcha"] ?? null, $altchaKey)) {
+    jsonResponse(false, "Vérification anti-robot échouée, merci de réessayer", 400);
+}
+
+// Une seule ligne : empêche d'injecter des en-têtes de mail (Bcc…) via le nom.
+function oneLine($value)
+{
+    return trim(preg_replace('/[\r\n\t]+/', ' ', $value));
+}
+
 // Récupération et nettoyage des données
-$name = trim(htmlspecialchars($_POST["name"] ?? ""));
-$email = trim(filter_var($_POST["email"] ?? "", FILTER_SANITIZE_EMAIL));
-$projectType = trim(htmlspecialchars($_POST["project-type"] ?? ""));
-$message = trim(htmlspecialchars($_POST["message"] ?? ""));
+$name = mb_substr(oneLine(htmlspecialchars($_POST["name"] ?? "")), 0, 120);
+$email = oneLine(filter_var($_POST["email"] ?? "", FILTER_SANITIZE_EMAIL));
+$projectType = mb_substr(oneLine(htmlspecialchars($_POST["project-type"] ?? "")), 0, 40);
+$message = mb_substr(trim(htmlspecialchars($_POST["message"] ?? "")), 0, 10000);
 
 // Validation
 if (empty($name) || empty($email) || empty($message)) {
@@ -86,6 +108,11 @@ $data .= "MIME-Version: 1.0\r\n";
 $data .= "Content-Type: text/plain; charset=UTF-8\r\n";
 $data .= "\r\n";
 $data .= $body;
+
+// Fins de ligne normalisées + « dot-stuffing » (RFC 5321) : une ligne « . »
+// dans le message ne doit pas terminer le DATA et ouvrir de nouvelles commandes.
+$data = preg_replace("/\r?\n|\r/", "\r\n", $data);
+$data = preg_replace('/^\./m', '..', $data);
 
 $ok = $ok && str_starts_with(smtpSend($smtp, "$data\r\n."), "250");
 smtpSend($smtp, "QUIT");

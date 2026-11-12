@@ -976,6 +976,53 @@
                             </div>
                             <div class="lab-status">Live</div>
                         </a>
+
+                        <a
+                            href="https://ronde.altstud.io"
+                            target="_blank"
+                            class="lab-card"
+                        >
+                            <div class="lab-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                >
+                                    <circle cx="12" cy="13" r="8" />
+                                    <path d="M12 13V8.5M12 13l3 1.6" />
+                                    <circle cx="18.5" cy="5.5" r="2" />
+                                </svg>
+                            </div>
+                            <div class="lab-content">
+                                <h3>ronde</h3>
+                                <p>
+                                    Planificateur de tâches Claude auto-hébergé :
+                                    des rondes IA sur vos serveurs, qui répondent
+                                    RAS ou vous alertent.
+                                </p>
+                                <div class="lab-stack">
+                                    <span>Node.js</span>
+                                    <span>Express</span>
+                                    <span>SQLite</span>
+                                    <span>htmx</span>
+                                    <span>MCP</span>
+                                </div>
+                                <span class="lab-link"
+                                    >ronde.altstud.io
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            d="M7 17L17 7M17 7H7M17 7V17"
+                                        /></svg
+                                ></span>
+                            </div>
+                            <div class="lab-status">Open source</div>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -1059,6 +1106,26 @@
                                     ></textarea>
                                 </div>
 
+                                <!-- Champ piège anti-spam : invisible, laissé vide par les humains -->
+                                <div class="form-trap" aria-hidden="true">
+                                    <label for="website">Site web</label>
+                                    <input
+                                        type="text"
+                                        id="website"
+                                        name="website"
+                                        tabindex="-1"
+                                        autocomplete="off"
+                                    />
+                                </div>
+
+                                <div class="form-group full-width form-captcha">
+                                    <altcha-widget
+                                        challengeurl="/altcha-challenge.php"
+                                        language="fr-fr"
+                                        hidefooter
+                                    ></altcha-widget>
+                                </div>
+
                                 <button type="submit" class="btn-submit">
                                     Envoyer
                                     <svg
@@ -1118,11 +1185,12 @@
             <div class="container">
                 <div class="footer-content">
                     <span class="footer-logo">altstud<span>.IO</span></span>
-                    <p>&copy; 2025 — Tous droits réservés</p>
+                    <p>&copy; 2026 — Tous droits réservés</p>
                 </div>
             </div>
         </footer>
 
+        <script type="module" src="vendor/altcha-2.3.0.js"></script>
         <script src="script.js" defer></script>
     </body>
 </html>

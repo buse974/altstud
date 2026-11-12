@@ -76,6 +76,7 @@ Side projects et outils développés en interne.
 - **[RedDeck](https://reddeck.fr)** *(Live)* — Créer des pitch decks percutants en quelques minutes. *Stack : HTML5, CSS, JavaScript.*
 - **[ContextFlow](https://contextflow.fr)** *(Beta)* — Gestion intelligente de contexte pour applications IA. *Stack : Node.js, Hono, TypeScript, PostgreSQL, MCP.*
 - **[Copolia](https://copolia.fr)** *(Live)* — Plateforme de communication pour copropriétés et résidences. *Stack : React, Express, TypeScript, PostgreSQL, Socket.io.*
+- **[ronde](https://ronde.altstud.io)** *(Open source)* — Planificateur de tâches Claude auto-hébergé : des rondes IA sur vos serveurs, qui répondent RAS ou vous alertent. *Stack : Node.js, Express, SQLite, htmx, MCP.*
 
 ---
 
@@ -92,4 +93,4 @@ MVP, refonte, renfort technique ou juste une question — écrivez-nous, on rép
 
 ---
 
-© 2025 Altstud.IO — Tous droits réservés.
+© 2026 Altstud.IO — Tous droits réservés.

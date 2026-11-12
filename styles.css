@@ -1717,3 +1717,24 @@ ul {
         gap: 0.5rem;
     }
 }
+
+/* ========================================
+   Anti-spam : champ piège + captcha ALTCHA
+   ======================================== */
+.form-trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.form-captcha altcha-widget {
+    --altcha-color-base: var(--gray-900);
+    --altcha-color-text: var(--white);
+    --altcha-color-border: var(--gray-700);
+    --altcha-color-border-focus: #ef4444;
+    --altcha-color-error-text: #ef4444;
+    --altcha-border-radius: 8px;
+    --altcha-max-width: 100%;
+}
