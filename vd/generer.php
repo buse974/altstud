@@ -9,24 +9,20 @@
  * Le parcours de Virginie vient des variantes écrites à la main (vd/*.md) :
  * Claude oriente et reformule, il n'invente rien.
  *
+ * La rédaction passe par Claude Code en mode non interactif (`claude -p`),
+ * sur l'abonnement de Christophe : usage personnel, protégé par un code.
+ *
  * Variables d'environnement (jamais dans le dépôt) :
- *   ANTHROPIC_API_KEY  clé de l'API Claude
- *   CV_ACCESS_CODE     code demandé dans le formulaire (évite qu'un inconnu consomme la clé)
- *   CV_GEN_DIR         dossier des CV générés (défaut : vd/gen, à monter en volume)
+ *   CLAUDE_CODE_OAUTH_TOKEN  jeton créé par `claude setup-token`
+ *   CV_ACCESS_CODE           code demandé dans le formulaire
+ *   CV_GEN_DIR               dossier des CV générés (défaut : vd/gen, à monter en volume)
  */
 
-require __DIR__ . '/../php-vendor/autoload.php';
 require __DIR__ . '/cv-render.php';
 
-use Anthropic\Client;
-use Anthropic\Core\Exceptions\APIConnectionException;
-use Anthropic\Core\Exceptions\APIStatusException;
-use Anthropic\Core\Exceptions\AuthenticationException;
-use Anthropic\Core\Exceptions\OverloadedException;
-use Anthropic\Core\Exceptions\RateLimitException;
-
-const CV_MODEL = 'claude-opus-5-5';
+const CV_MODEL = 'opus';
 const CV_MAX_OFFRE = 30000;
+const CV_TIMEOUT = 420; // secondes
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -62,10 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // --- Contrôles ---------------------------------------------------------------
-$apiKey = getenv('ANTHROPIC_API_KEY');
+$token = getenv('CLAUDE_CODE_OAUTH_TOKEN');
 $accessCode = getenv('CV_ACCESS_CODE');
-if (!$apiKey || !$accessCode) {
-    fail('Générateur non configuré (clé API ou code d\'accès manquant)', 503);
+if (!$token || !$accessCode) {
+    fail('Générateur non configuré (jeton Claude ou code d\'accès manquant)', 503);
 }
 
 $input = json_decode(file_get_contents('php://input') ?: '', true) ?: $_POST;
@@ -83,36 +79,21 @@ if (mb_strlen($offre) > CV_MAX_OFFRE) {
     fail('Offre trop longue (' . CV_MAX_OFFRE . ' caractères max)');
 }
 
-set_time_limit(600);
+set_time_limit(CV_TIMEOUT + 30);
 ignore_user_abort(true);
 
-$client = new Client(apiKey: $apiKey);
 $isUrl = (bool) preg_match('~^https?://\S+$~i', $offre);
 
 try {
-    // --- 1. Si c'est un lien : Claude lit la page de l'offre -----------------
-    $texteOffre = $isUrl ? fetch_offre($client, $offre) : $offre;
-    if ($texteOffre === null) {
-        fail('Impossible de lire cette page (site protégé ou offre expirée). Copie-colle le texte de l\'offre à la place.', 422);
-    }
-
-    // --- 2. Génération du CV structuré ---------------------------------------
-    $cv = generate_cv($client, $texteOffre, $isUrl ? $offre : null);
-} catch (AuthenticationException) {
-    fail('Clé API Claude refusée', 502);
-} catch (RateLimitException | OverloadedException) {
-    fail('Claude est surchargé, réessaie dans une minute', 503);
-} catch (APIStatusException $e) {
-    error_log('[cv] API ' . $e->getMessage());
-    fail('Erreur de l\'API Claude', 502);
-} catch (APIConnectionException $e) {
-    error_log('[cv] connexion ' . $e->getMessage());
-    fail('Impossible de joindre l\'API Claude', 502);
+    $cv = generate_cv($offre, $isUrl);
 } catch (RuntimeException $e) {
     fail($e->getMessage(), 502);
 }
+if (!$cv['offre_lisible']) {
+    fail('Impossible de lire cette page (site protégé ou offre expirée). Copie-colle le texte de l\'offre à la place.', 422);
+}
 
-// --- 3. Enregistrement de la page -------------------------------------------
+// --- Enregistrement de la page -------------------------------------------
 if (!is_dir($genDir) && !@mkdir($genDir, 0775, true)) {
     fail('Dossier des CV générés non accessible en écriture', 500);
 }
@@ -147,45 +128,6 @@ reply(['success' => true, 'cv' => $entry, 'notes' => $cv['notes']]);
 
 // =============================================================================
 
-/** Lit l'offre derrière un lien avec l'outil web_fetch de Claude. null si illisible. */
-function fetch_offre(Client $client, string $url): ?string
-{
-    $messages = [[
-        'role' => 'user',
-        'content' => "Lis l'offre d'emploi à cette adresse : $url\n\n"
-            . "Restitue fidèlement son contenu en texte brut : intitulé du poste, entreprise, lieu, "
-            . "type de contrat, horaires, salaire, missions, profil recherché, et tout ce qui décrit "
-            . "l'employeur. Ne résume pas, ne commente pas. Si la page est inaccessible ou ne contient "
-            . "pas d'offre d'emploi, réponds uniquement : INACCESSIBLE",
-    ]];
-
-    for ($i = 0; $i < 4; $i++) {
-        $res = $client->messages->create(
-            model: CV_MODEL,
-            maxTokens: 16000,
-            outputConfig: ['effort' => 'low'],
-            tools: [['type' => 'web_fetch_20260209', 'name' => 'web_fetch', 'maxUses' => 3]],
-            messages: $messages,
-        );
-        if ($res->stopReason !== 'pause_turn') {
-            break;
-        }
-        $messages[] = ['role' => 'assistant', 'content' => $res->content];
-    }
-
-    if ($res->stopReason === 'refusal') {
-        return null;
-    }
-    $text = '';
-    foreach ($res->content as $block) {
-        if ($block->type === 'text') {
-            $text .= $block->text;
-        }
-    }
-    $text = trim($text);
-    return ($text === '' || str_contains($text, 'INACCESSIBLE')) ? null : $text;
-}
-
 /** Parcours de Virginie : toutes les variantes écrites à la main. */
 function connaissances(): string
 {
@@ -200,7 +142,7 @@ function connaissances(): string
     return $out;
 }
 
-function generate_cv(Client $client, string $offre, ?string $url): array
+function generate_cv(string $offre, bool $isUrl): array
 {
     $system = <<<TXT
 Tu rédiges le CV et la lettre de motivation de Virginie Damour, en français, pour une offre d'emploi précise.
@@ -217,6 +159,7 @@ Règles :
 - Mets en **gras** (double astérisque) quelques mots-clés, avec parcimonie, comme dans les versions existantes. Aucun autre balisage.
 - `slug` : 2 à 4 mots en minuscules séparés par des tirets, décrivant le poste (et l'entreprise si connue), ex. « vendeuse-boulangerie-paul ».
 - `notes` : 2 à 4 phrases pour Christophe : ce que tu as mis en avant, et les points de l'offre qu'elle ne couvre pas ou à vérifier avec elle.
+- Si on te donne un lien, lis l'offre avec WebFetch. Si la page est inaccessible ou ne contient pas d'offre d'emploi, mets `offre_lisible` à false et remplis les autres champs au plus court ; sinon `offre_lisible` vaut true.
 
 Ses versions de CV :
 TXT . connaissances();
@@ -225,8 +168,9 @@ TXT . connaissances();
     $schema = [
         'type' => 'object',
         'additionalProperties' => false,
-        'required' => ['slug', 'titre_carte', 'description_carte', 'role', 'meta_description', 'profil', 'competences', 'experiences', 'formations', 'lettre', 'notes'],
+        'required' => ['offre_lisible', 'slug', 'titre_carte', 'description_carte', 'role', 'meta_description', 'profil', 'competences', 'experiences', 'formations', 'lettre', 'notes'],
         'properties' => [
+            'offre_lisible' => ['type' => 'boolean'],
             'slug' => $str,
             'titre_carte' => ['type' => 'string', 'description' => 'Titre court pour la liste des CV, ex. « Vendeuse – Boulangerie Paul »'],
             'description_carte' => ['type' => 'string', 'description' => 'Une ou deux phrases décrivant le poste visé et l\'angle du CV'],
@@ -262,35 +206,84 @@ TXT . connaissances();
         ],
     ];
 
-    $intro = $url ? "Offre d'emploi (lue sur $url) :" : "Offre d'emploi :";
+    $prompt = $isUrl
+        ? "Rédige le CV et la lettre pour l'offre d'emploi publiée ici : $offre"
+        : "Rédige le CV et la lettre pour cette offre d'emploi :\n\n<offre>\n$offre\n</offre>";
 
-    $res = $client->beta->messages->create(
-        model: CV_MODEL,
-        maxTokens: 16000,
-        system: [['type' => 'text', 'text' => $system, 'cacheControl' => ['type' => 'ephemeral']]],
-        messages: [['role' => 'user', 'content' => "$intro\n\n<offre>\n$offre\n</offre>"]],
-        outputConfig: [
-            'effort' => 'medium',
-            'format' => ['type' => 'json_schema', 'schema' => $schema],
-        ],
-        fallbacks: 'default',
-        betas: ['server-side-fallback-2026-07-01'],
-    );
+    // Claude Code a besoin d'un HOME inscriptible pour sa configuration.
+    $home = sys_get_temp_dir() . '/claude-home';
+    @mkdir($home, 0700, true);
+    $sysFile = tempnam(sys_get_temp_dir(), 'cv-sys');
+    file_put_contents($sysFile, $system);
 
-    if ($res->stopReason === 'refusal') {
-        throw new RuntimeException('Claude a refusé de traiter cette offre');
+    $cmd = [
+        'claude', '-p',
+        '--model', CV_MODEL,
+        '--effort', 'medium',
+        '--output-format', 'json',
+        '--json-schema', json_encode($schema, JSON_UNESCAPED_UNICODE),
+        '--system-prompt-file', $sysFile,
+        '--tools', $isUrl ? 'WebFetch' : '',
+        '--allowedTools', 'WebFetch',
+        '--setting-sources', '',
+        '--no-session-persistence',
+    ];
+    $env = [
+        'HOME' => $home,
+        'PATH' => '/usr/local/bin:/usr/bin:/bin',
+        'CLAUDE_CODE_OAUTH_TOKEN' => getenv('CLAUDE_CODE_OAUTH_TOKEN'),
+        'DISABLE_AUTOUPDATER' => '1',
+    ];
+
+    $proc = proc_open($cmd, [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, $home, $env);
+    if (!is_resource($proc)) {
+        @unlink($sysFile);
+        throw new RuntimeException('Impossible de lancer Claude Code');
     }
-    if ($res->stopReason === 'max_tokens') {
-        throw new RuntimeException('Réponse coupée (trop longue), réessaie');
-    }
+    fwrite($pipes[0], $prompt);
+    fclose($pipes[0]);
 
-    foreach ($res->content as $block) {
-        if ($block->type === 'text') {
-            $cv = json_decode($block->text, true);
-            if (is_array($cv)) {
-                return $cv;
+    $out = $err = '';
+    stream_set_blocking($pipes[1], false);
+    stream_set_blocking($pipes[2], false);
+    $deadline = time() + CV_TIMEOUT;
+    while (true) {
+        $read = [$pipes[1], $pipes[2]];
+        $w = $e = null;
+        if (stream_select($read, $w, $e, 5) > 0) {
+            foreach ($read as $r) {
+                $chunk = fread($r, 65536);
+                if ($r === $pipes[1]) { $out .= $chunk; } else { $err .= $chunk; }
             }
         }
+        if (!proc_get_status($proc)['running']) {
+            $out .= stream_get_contents($pipes[1]);
+            $err .= stream_get_contents($pipes[2]);
+            break;
+        }
+        if (time() > $deadline) {
+            proc_terminate($proc);
+            @unlink($sysFile);
+            throw new RuntimeException('La rédaction a pris trop de temps, réessaie');
+        }
     }
-    throw new RuntimeException('Réponse de Claude illisible, réessaie');
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+    proc_close($proc);
+    @unlink($sysFile);
+
+    $res = json_decode($out, true);
+    if (!is_array($res)) {
+        error_log('[cv] claude: ' . substr($err ?: $out, 0, 2000));
+        throw new RuntimeException('Claude Code n\'a pas répondu correctement');
+    }
+    if (!empty($res['is_error']) || !is_array($res['structured_output'] ?? null)) {
+        error_log('[cv] claude: ' . substr($out, 0, 2000));
+        $msg = (string) ($res['result'] ?? '');
+        if (stripos($msg, 'limit') !== false) {
+            throw new RuntimeException('Limite d\'usage Claude atteinte, réessaie plus tard');
+        }
+        throw new RuntimeException('Échec de la rédaction, réessaie');
+    }
+    return $res['structured_output'];
 }
