@@ -2,26 +2,31 @@
 /**
  * Générateur de CV ciblé pour Virginie Damour.
  *
- *   POST  { offre, code }  → génère un CV + lettre adaptés à l'offre
- *   GET   ?liste           → liste des CV déjà générés
+ *   POST { action: "generer",  offre, code }            → nouveau CV + lettre pour une offre
+ *   POST { action: "modifier", source, consigne, code } → applique une consigne à un CV existant
+ *   GET  ?liste                                         → liste des CV générés
  *
  * L'offre peut être un lien (Claude va lire la page) ou le texte collé.
  * Le parcours de Virginie vient des variantes écrites à la main (vd/*.md) :
  * Claude oriente et reformule, il n'invente rien.
+ *
+ * Modifier un CV généré (gen/…) le réécrit sur place (l'ancienne version est
+ * gardée en .prev). Modifier une variante écrite à la main crée une nouvelle
+ * page dans gen/ : les variantes du dépôt ne changent qu'avec un commit.
  *
  * La rédaction passe par Claude Code en mode non interactif (`claude -p`),
  * sur l'abonnement de Christophe : usage personnel, protégé par un code.
  *
  * Variables d'environnement (jamais dans le dépôt) :
  *   CLAUDE_CODE_OAUTH_TOKEN  jeton créé par `claude setup-token`
- *   CV_ACCESS_CODE           code demandé dans le formulaire
+ *   CV_ACCESS_CODE           code demandé dans les formulaires
  *   CV_GEN_DIR               dossier des CV générés (défaut : vd/gen, à monter en volume)
  */
 
 require __DIR__ . '/cv-render.php';
 
 const CV_MODEL = 'opus';
-const CV_MAX_OFFRE = 30000;
+const CV_MAX_INPUT = 30000;
 const CV_TIMEOUT = 420; // secondes
 
 header('Content-Type: application/json; charset=utf-8');
@@ -42,22 +47,17 @@ function fail(string $message, int $code = 400): never
 $genDir = rtrim(getenv('CV_GEN_DIR') ?: __DIR__ . '/gen', '/');
 $manifest = $genDir . '/index.json';
 
-function read_manifest(string $file): array
-{
-    $data = is_file($file) ? json_decode((string) file_get_contents($file), true) : null;
-    return is_array($data) ? $data : [];
-}
-
 // --- Liste des CV générés ---------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['liste'])) {
-    reply(['success' => true, 'cvs' => array_reverse(read_manifest($manifest))]);
+    $list = is_file($manifest) ? json_decode((string) file_get_contents($manifest), true) : [];
+    reply(['success' => true, 'cvs' => array_reverse(is_array($list) ? $list : [])]);
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     fail('Méthode non autorisée', 405);
 }
 
-// --- Contrôles ---------------------------------------------------------------
+// --- Contrôles communs -------------------------------------------------------
 $token = getenv('CLAUDE_CODE_OAUTH_TOKEN');
 $accessCode = getenv('CV_ACCESS_CODE');
 if (!$token || !$accessCode) {
@@ -65,68 +65,179 @@ if (!$token || !$accessCode) {
 }
 
 $input = json_decode(file_get_contents('php://input') ?: '', true) ?: $_POST;
-$code = (string) ($input['code'] ?? '');
-$offre = trim((string) ($input['offre'] ?? ''));
-
-if (!hash_equals($accessCode, $code)) {
+if (!hash_equals($accessCode, (string) ($input['code'] ?? ''))) {
     usleep(800000); // ralentit les essais au hasard
     fail('Code d\'accès incorrect', 403);
-}
-if (mb_strlen($offre) < 15) {
-    fail('Colle le lien ou le texte de l\'offre');
-}
-if (mb_strlen($offre) > CV_MAX_OFFRE) {
-    fail('Offre trop longue (' . CV_MAX_OFFRE . ' caractères max)');
 }
 
 set_time_limit(CV_TIMEOUT + 30);
 ignore_user_abort(true);
 
-$isUrl = (bool) preg_match('~^https?://\S+$~i', $offre);
+$action = (string) ($input['action'] ?? 'generer');
 
 try {
-    $cv = generate_cv($offre, $isUrl);
+    if ($action === 'modifier') {
+        action_modifier($input, $genDir, $manifest);
+    }
+    action_generer($input, $genDir, $manifest);
 } catch (RuntimeException $e) {
     fail($e->getMessage(), 502);
 }
-if (!$cv['offre_lisible']) {
-    fail('Impossible de lire cette page (site protégé ou offre expirée). Copie-colle le texte de l\'offre à la place.', 422);
+
+// =============================================================================
+// Actions
+
+function action_generer(array $input, string $genDir, string $manifest): never
+{
+    $offre = trim((string) ($input['offre'] ?? ''));
+    check_length($offre, 'Colle le lien ou le texte de l\'offre');
+    $isUrl = (bool) preg_match('~^https?://\S+$~i', $offre);
+
+    $prompt = $isUrl
+        ? "Rédige le CV et la lettre pour l'offre d'emploi publiée ici : $offre\n\n"
+          . "Lis l'offre avec WebFetch. Si la page est inaccessible ou ne contient pas d'offre d'emploi, "
+          . "mets `offre_lisible` à false et remplis les autres champs au plus court."
+        : "Rédige le CV et la lettre pour cette offre d'emploi :\n\n<offre>\n$offre\n</offre>";
+
+    $cv = run_claude($prompt, $isUrl);
+    if (!$cv['offre_lisible']) {
+        fail('Impossible de lire cette page (site protégé ou offre expirée). Copie-colle le texte de l\'offre à la place.', 422);
+    }
+
+    $entry = save_new($cv, $genDir, $manifest, $isUrl ? $offre : null);
+    reply(['success' => true, 'cv' => $entry, 'notes' => $cv['notes']]);
 }
 
-// --- Enregistrement de la page -------------------------------------------
-if (!is_dir($genDir) && !@mkdir($genDir, 0775, true)) {
-    fail('Dossier des CV générés non accessible en écriture', 500);
+function action_modifier(array $input, string $genDir, string $manifest): never
+{
+    $consigne = trim((string) ($input['consigne'] ?? ''));
+    check_length($consigne, 'Écris ce qu\'il faut changer', 3);
+
+    // Source : une variante écrite à la main (x.html) ou un CV généré (gen/x.html).
+    $source = (string) ($input['source'] ?? '');
+    if (!preg_match('~^(gen/)?([a-z0-9][a-z0-9-]*)\.html$~', $source, $m) || $m[2] === 'index') {
+        fail('CV source invalide');
+    }
+    $isGen = $m[1] !== '';
+
+    if ($isGen) {
+        $jsonFile = "$genDir/{$m[2]}.json";
+        $current = is_file($jsonFile) ? (string) file_get_contents($jsonFile) : '';
+        if ($current === '') {
+            fail('Ce CV ne peut pas être modifié (données d\'origine absentes)', 404);
+        }
+        $actuel = "Version actuelle du CV (JSON) :\n<cv_actuel>\n$current\n</cv_actuel>";
+    } else {
+        $md = __DIR__ . "/{$m[2]}.md";
+        if (!is_file($md)) {
+            fail('CV introuvable', 404);
+        }
+        $actuel = "Version actuelle du CV (variante « {$m[2]} ») :\n<cv_actuel>\n"
+            . trim((string) file_get_contents($md)) . "\n</cv_actuel>";
+    }
+
+    $prompt = "$actuel\n\nChristophe demande cette modification :\n<consigne>\n$consigne\n</consigne>\n\n"
+        . "Renvoie le CV complet avec la modification appliquée. Garde tel quel tout ce que la consigne "
+        . "ne demande pas de changer (formulations, ordre, lettre). La consigne peut t'apprendre un fait "
+        . "nouveau sur Virginie (permis, disponibilité, expérience oubliée…) : tu peux alors l'utiliser. "
+        . "Mets `offre_lisible` à true. Dans `notes`, résume en une ou deux phrases ce que tu as changé.";
+
+    $cv = run_claude($prompt, false);
+
+    if (!$isGen) {
+        $entry = save_new($cv, $genDir, $manifest, null);
+        reply(['success' => true, 'cv' => $entry, 'notes' => $cv['notes'], 'nouveau' => true]);
+    }
+
+    // CV généré : réécrit sur place, version précédente gardée en .prev.
+    $base = "$genDir/{$m[2]}";
+    @copy("$base.html", "$base.html.prev");
+    @copy("$base.json", "$base.json.prev");
+    write_cv($cv, $base);
+
+    $entry = update_manifest($manifest, function (array $list) use ($source, $cv) {
+        foreach ($list as &$e) {
+            if ($e['file'] === $source) {
+                $e['titre'] = $cv['titre_carte'];
+                $e['description'] = $cv['description_carte'];
+                $e['modifie'] = date('c');
+            }
+        }
+        return $list;
+    }, $source);
+    reply(['success' => true, 'cv' => $entry, 'notes' => $cv['notes'], 'nouveau' => false]);
 }
 
-$slug = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $cv['slug']) ?: 'cv')), '-') ?: 'cv';
-$file = substr($slug, 0, 60) . '-' . date('Ymd-His') . '.html';
+// =============================================================================
+// Fichiers
 
-if (file_put_contents("$genDir/$file", cv_render($cv, '../')) === false) {
-    fail('Impossible d\'enregistrer le CV', 500);
+function check_length(string $text, string $emptyMessage, int $min = 15): void
+{
+    if (mb_strlen($text) < $min) {
+        fail($emptyMessage);
+    }
+    if (mb_strlen($text) > CV_MAX_INPUT) {
+        fail('Texte trop long (' . CV_MAX_INPUT . ' caractères max)');
+    }
 }
 
-$entry = [
-    'file' => "gen/$file",
-    'titre' => $cv['titre_carte'],
-    'description' => $cv['description_carte'],
-    'source' => $isUrl ? $offre : null,
-    'date' => date('c'),
-];
-$fp = fopen($manifest, 'c+');
-if ($fp) {
+/** Écrit la page HTML et ses données JSON (pour les modifications suivantes). */
+function write_cv(array $cv, string $base): void
+{
+    $html = file_put_contents("$base.html", cv_render($cv, '../'));
+    $json = file_put_contents("$base.json", json_encode($cv, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    if ($html === false || $json === false) {
+        throw new RuntimeException('Impossible d\'enregistrer le CV');
+    }
+}
+
+function save_new(array $cv, string $genDir, string $manifest, ?string $sourceUrl): array
+{
+    if (!is_dir($genDir) && !@mkdir($genDir, 0775, true)) {
+        throw new RuntimeException('Dossier des CV générés non accessible en écriture');
+    }
+    $slug = strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $cv['slug']) ?: 'cv');
+    $slug = substr(trim(preg_replace('/[^a-z0-9]+/', '-', $slug), '-') ?: 'cv', 0, 60);
+    $name = $slug . '-' . date('Ymd-His');
+    write_cv($cv, "$genDir/$name");
+
+    $entry = [
+        'file' => "gen/$name.html",
+        'titre' => $cv['titre_carte'],
+        'description' => $cv['description_carte'],
+        'source' => $sourceUrl,
+        'date' => date('c'),
+    ];
+    update_manifest($manifest, fn (array $list) => [...$list, $entry]);
+    return $entry;
+}
+
+/** Modifie la liste des CV sous verrou ; renvoie l'entrée $file si demandée. */
+function update_manifest(string $manifest, callable $change, ?string $file = null): ?array
+{
+    $fp = fopen($manifest, 'c+');
+    if (!$fp) {
+        return null;
+    }
     flock($fp, LOCK_EX);
     $list = json_decode(stream_get_contents($fp) ?: '[]', true) ?: [];
-    $list[] = $entry;
+    $list = $change($list);
     ftruncate($fp, 0);
     rewind($fp);
     fwrite($fp, json_encode($list, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     flock($fp, LOCK_UN);
     fclose($fp);
+
+    foreach ($file ? $list : [] as $e) {
+        if ($e['file'] === $file) {
+            return $e;
+        }
+    }
+    return $file ? ['file' => $file, 'titre' => '', 'description' => ''] : null;
 }
 
-reply(['success' => true, 'cv' => $entry, 'notes' => $cv['notes']]);
-
 // =============================================================================
+// Claude
 
 /** Parcours de Virginie : toutes les variantes écrites à la main. */
 function connaissances(): string
@@ -142,88 +253,77 @@ function connaissances(): string
     return $out;
 }
 
-function generate_cv(string $offre, bool $isUrl): array
+function system_prompt(): string
 {
-    $system = <<<TXT
-Tu rédiges le CV et la lettre de motivation de Virginie Damour, en français, pour une offre d'emploi précise.
+    return <<<TXT
+Tu rédiges le CV et la lettre de motivation de Virginie Damour, en français, pour un poste précis.
 
-Son parcours est décrit ci-dessous par plusieurs versions de son CV, chacune orientée vers un métier différent. Ces versions sont ta seule source sur elle : elles disent ce qu'elle a fait, où, quand, et quels diplômes elle a.
+Son parcours est décrit ci-dessous par plusieurs versions de son CV, chacune orientée vers un métier différent. Ces versions sont ta source sur elle : elles disent ce qu'elle a fait, où, quand, et quels diplômes elle a.
 
 Règles :
-- N'invente rien : pas d'employeur, de poste, de date, de diplôme, de certification, de logiciel ou de compétence technique qui ne figure pas dans ses versions. Tu choisis, ordonnes et reformules ses expériences réelles pour qu'elles parlent au recruteur de cette offre, comme les versions existantes le font pour leur métier.
+- N'invente rien : pas d'employeur, de poste, de date, de diplôme, de certification, de logiciel ou de compétence technique qui ne figure pas dans ses versions (ou dans une consigne de Christophe). Tu choisis, ordonnes et reformules ses expériences réelles pour qu'elles parlent au recruteur, comme les versions existantes le font pour leur métier.
 - Si l'offre exige quelque chose qu'elle n'a pas (diplôme, permis, expérience précise), ne le prétends pas : mets en avant ce qui s'en rapproche le plus, et signale le manque dans `notes`.
 - Garde le ton des versions existantes : simple, concret, chaleureux, sans jargon RH ni superlatifs creux. Profil en un paragraphe, à la première personne.
-- 5 ou 6 compétences, chacune reliée à une expérience réelle. Expériences dans l'ordre le plus parlant pour cette offre ; tu peux en omettre qui n'apportent rien. 3 ou 4 points par expérience.
+- 5 ou 6 compétences, chacune reliée à une expérience réelle. Expériences dans l'ordre le plus parlant pour le poste ; tu peux en omettre qui n'apportent rien. 3 ou 4 points par expérience.
 - Si une date n'est pas connue, laisse le champ vide.
-- Lettre : 3 ou 4 paragraphes adressés à l'employeur de l'offre (nomme l'entreprise et le poste quand l'offre les donne), sans la formule d'appel « Madame, Monsieur, » ni la signature, qui sont ajoutées automatiquement.
+- Lettre : 3 ou 4 paragraphes adressés à l'employeur (nomme l'entreprise et le poste quand tu les connais), sans la formule d'appel « Madame, Monsieur, » ni la signature, qui sont ajoutées automatiquement.
 - Mets en **gras** (double astérisque) quelques mots-clés, avec parcimonie, comme dans les versions existantes. Aucun autre balisage.
 - `slug` : 2 à 4 mots en minuscules séparés par des tirets, décrivant le poste (et l'entreprise si connue), ex. « vendeuse-boulangerie-paul ».
-- `notes` : 2 à 4 phrases pour Christophe : ce que tu as mis en avant, et les points de l'offre qu'elle ne couvre pas ou à vérifier avec elle.
-- Si on te donne un lien, lis l'offre avec WebFetch. Si la page est inaccessible ou ne contient pas d'offre d'emploi, mets `offre_lisible` à false et remplis les autres champs au plus court ; sinon `offre_lisible` vaut true.
+- `notes` : 2 à 4 phrases pour Christophe : ce que tu as mis en avant, et les points qu'elle ne couvre pas ou à vérifier avec elle.
 
 Ses versions de CV :
 TXT . connaissances();
+}
 
+function cv_schema(): array
+{
     $str = ['type' => 'string'];
-    $schema = [
-        'type' => 'object',
-        'additionalProperties' => false,
-        'required' => ['offre_lisible', 'slug', 'titre_carte', 'description_carte', 'role', 'meta_description', 'profil', 'competences', 'experiences', 'formations', 'lettre', 'notes'],
-        'properties' => [
-            'offre_lisible' => ['type' => 'boolean'],
-            'slug' => $str,
-            'titre_carte' => ['type' => 'string', 'description' => 'Titre court pour la liste des CV, ex. « Vendeuse – Boulangerie Paul »'],
-            'description_carte' => ['type' => 'string', 'description' => 'Une ou deux phrases décrivant le poste visé et l\'angle du CV'],
-            'role' => ['type' => 'string', 'description' => 'Sous-titre sous son nom : le poste visé'],
-            'meta_description' => $str,
-            'profil' => $str,
-            'competences' => ['type' => 'array', 'items' => [
-                'type' => 'object', 'additionalProperties' => false,
-                'required' => ['titre', 'texte'],
-                'properties' => ['titre' => $str, 'texte' => $str],
-            ]],
-            'experiences' => ['type' => 'array', 'items' => [
-                'type' => 'object', 'additionalProperties' => false,
-                'required' => ['poste', 'entreprise', 'dates', 'points'],
-                'properties' => ['poste' => $str, 'entreprise' => $str, 'dates' => $str, 'points' => ['type' => 'array', 'items' => $str]],
-            ]],
-            'formations' => ['type' => 'array', 'items' => [
-                'type' => 'object', 'additionalProperties' => false,
-                'required' => ['intitule', 'etablissement', 'annee'],
-                'properties' => ['intitule' => $str, 'etablissement' => $str, 'annee' => $str],
-            ]],
-            'lettre' => [
-                'type' => 'object', 'additionalProperties' => false,
-                'required' => ['destinataire', 'objet', 'paragraphes', 'formule'],
-                'properties' => [
-                    'destinataire' => ['type' => 'string', 'description' => 'Ex. « À l\'attention du service recrutement – Carrefour Antibes »'],
-                    'objet' => ['type' => 'string', 'description' => 'Sans le préfixe « Objet : »'],
-                    'paragraphes' => ['type' => 'array', 'items' => $str],
-                    'formule' => ['type' => 'string', 'description' => 'Formule de politesse finale complète'],
-                ],
-            ],
-            'notes' => $str,
-        ],
+    $obj = fn (array $props) => [
+        'type' => 'object', 'additionalProperties' => false,
+        'required' => array_keys($props), 'properties' => $props,
     ];
 
-    $prompt = $isUrl
-        ? "Rédige le CV et la lettre pour l'offre d'emploi publiée ici : $offre"
-        : "Rédige le CV et la lettre pour cette offre d'emploi :\n\n<offre>\n$offre\n</offre>";
+    return $obj([
+        'offre_lisible' => ['type' => 'boolean'],
+        'slug' => $str,
+        'titre_carte' => ['type' => 'string', 'description' => 'Titre court pour la liste des CV, ex. « Vendeuse – Boulangerie Paul »'],
+        'description_carte' => ['type' => 'string', 'description' => 'Une ou deux phrases décrivant le poste visé et l\'angle du CV'],
+        'role' => ['type' => 'string', 'description' => 'Sous-titre sous son nom : le poste visé'],
+        'meta_description' => $str,
+        'profil' => $str,
+        'competences' => ['type' => 'array', 'items' => $obj(['titre' => $str, 'texte' => $str])],
+        'experiences' => ['type' => 'array', 'items' => $obj([
+            'poste' => $str, 'entreprise' => $str, 'dates' => $str,
+            'points' => ['type' => 'array', 'items' => $str],
+        ])],
+        'formations' => ['type' => 'array', 'items' => $obj(['intitule' => $str, 'etablissement' => $str, 'annee' => $str])],
+        'lettre' => $obj([
+            'destinataire' => ['type' => 'string', 'description' => 'Ex. « À l\'attention du service recrutement – Carrefour Antibes »'],
+            'objet' => ['type' => 'string', 'description' => 'Sans le préfixe « Objet : »'],
+            'paragraphes' => ['type' => 'array', 'items' => $str],
+            'formule' => ['type' => 'string', 'description' => 'Formule de politesse finale complète'],
+        ]),
+        'notes' => $str,
+    ]);
+}
 
+/** Lance `claude -p` et renvoie le CV structuré. */
+function run_claude(string $prompt, bool $webFetch): array
+{
     // Claude Code a besoin d'un HOME inscriptible pour sa configuration.
     $home = sys_get_temp_dir() . '/claude-home';
     @mkdir($home, 0700, true);
     $sysFile = tempnam(sys_get_temp_dir(), 'cv-sys');
-    file_put_contents($sysFile, $system);
+    file_put_contents($sysFile, system_prompt());
 
     $cmd = [
         'claude', '-p',
         '--model', CV_MODEL,
         '--effort', 'medium',
         '--output-format', 'json',
-        '--json-schema', json_encode($schema, JSON_UNESCAPED_UNICODE),
+        '--json-schema', json_encode(cv_schema(), JSON_UNESCAPED_UNICODE),
         '--system-prompt-file', $sysFile,
-        '--tools', $isUrl ? 'WebFetch' : '',
+        '--tools', $webFetch ? 'WebFetch' : '',
         '--allowedTools', 'WebFetch',
         '--setting-sources', '',
         '--no-session-persistence',
@@ -235,42 +335,47 @@ TXT . connaissances();
         'DISABLE_AUTOUPDATER' => '1',
     ];
 
-    $proc = proc_open($cmd, [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, $home, $env);
-    if (!is_resource($proc)) {
-        @unlink($sysFile);
-        throw new RuntimeException('Impossible de lancer Claude Code');
-    }
-    fwrite($pipes[0], $prompt);
-    fclose($pipes[0]);
+    try {
+        $proc = proc_open($cmd, [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, $home, $env);
+        if (!is_resource($proc)) {
+            throw new RuntimeException('Impossible de lancer Claude Code');
+        }
+        fwrite($pipes[0], $prompt);
+        fclose($pipes[0]);
 
-    $out = $err = '';
-    stream_set_blocking($pipes[1], false);
-    stream_set_blocking($pipes[2], false);
-    $deadline = time() + CV_TIMEOUT;
-    while (true) {
-        $read = [$pipes[1], $pipes[2]];
-        $w = $e = null;
-        if (stream_select($read, $w, $e, 5) > 0) {
-            foreach ($read as $r) {
-                $chunk = fread($r, 65536);
-                if ($r === $pipes[1]) { $out .= $chunk; } else { $err .= $chunk; }
+        $out = $err = '';
+        stream_set_blocking($pipes[1], false);
+        stream_set_blocking($pipes[2], false);
+        $deadline = time() + CV_TIMEOUT;
+        while (true) {
+            $read = [$pipes[1], $pipes[2]];
+            $w = $e = null;
+            if (stream_select($read, $w, $e, 5) > 0) {
+                foreach ($read as $r) {
+                    $chunk = (string) fread($r, 65536);
+                    if ($r === $pipes[1]) {
+                        $out .= $chunk;
+                    } else {
+                        $err .= $chunk;
+                    }
+                }
+            }
+            if (!proc_get_status($proc)['running']) {
+                $out .= stream_get_contents($pipes[1]);
+                $err .= stream_get_contents($pipes[2]);
+                break;
+            }
+            if (time() > $deadline) {
+                proc_terminate($proc);
+                throw new RuntimeException('La rédaction a pris trop de temps, réessaie');
             }
         }
-        if (!proc_get_status($proc)['running']) {
-            $out .= stream_get_contents($pipes[1]);
-            $err .= stream_get_contents($pipes[2]);
-            break;
-        }
-        if (time() > $deadline) {
-            proc_terminate($proc);
-            @unlink($sysFile);
-            throw new RuntimeException('La rédaction a pris trop de temps, réessaie');
-        }
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        proc_close($proc);
+    } finally {
+        @unlink($sysFile);
     }
-    fclose($pipes[1]);
-    fclose($pipes[2]);
-    proc_close($proc);
-    @unlink($sysFile);
 
     $res = json_decode($out, true);
     if (!is_array($res)) {
@@ -279,8 +384,7 @@ TXT . connaissances();
     }
     if (!empty($res['is_error']) || !is_array($res['structured_output'] ?? null)) {
         error_log('[cv] claude: ' . substr($out, 0, 2000));
-        $msg = (string) ($res['result'] ?? '');
-        if (stripos($msg, 'limit') !== false) {
+        if (stripos((string) ($res['result'] ?? ''), 'limit') !== false) {
             throw new RuntimeException('Limite d\'usage Claude atteinte, réessaie plus tard');
         }
         throw new RuntimeException('Échec de la rédaction, réessaie');

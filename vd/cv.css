@@ -504,6 +504,101 @@ body {
     font-size: 0.9rem;
 }
 
+/* Panneau « Modifier ce CV » (cv-edit.js) */
+.edit-btn {
+    background: var(--bg-light);
+    color: var(--white);
+    border: 1px solid var(--accent);
+}
+
+.edit-panel {
+    position: fixed;
+    right: 2rem;
+    bottom: 6rem;
+    width: min(460px, calc(100vw - 2rem));
+    background: var(--bg-light);
+    border: 1px solid rgba(232, 121, 169, 0.4);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    z-index: 101;
+}
+
+.edit-panel h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+}
+
+.edit-panel > p {
+    color: var(--gray-400);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+.edit-panel textarea,
+.edit-panel input {
+    width: 100%;
+    background: var(--bg);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 0.75rem 0.9rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.edit-panel textarea {
+    min-height: 110px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.edit-panel textarea:focus,
+.edit-panel input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.edit-panel .gen-row {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.edit-panel .gen-row input {
+    flex: 1;
+    min-width: 140px;
+}
+
+.edit-panel .gen-row.code-ok input {
+    display: none;
+}
+
+.edit-panel button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.7rem 1.3rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.edit-panel button:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+.edit-panel .edit-cancel {
+    background: transparent;
+    color: var(--gray-400);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .section-menu-title {
     font-size: 0.85rem;
     text-transform: uppercase;
@@ -519,7 +614,8 @@ body {
     }
 
     .print-btn,
-    .btn-container {
+    .btn-container,
+    .edit-panel {
         display: none !important;
     }
 

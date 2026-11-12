@@ -161,6 +161,7 @@ function cv_render(array $cv, string $base = '../'): string
                 container.style.display = "block";
             }
         </script>
+        <script src="<?= $base ?>cv-edit.js" defer></script>
     </body>
 </html>
 <?php
