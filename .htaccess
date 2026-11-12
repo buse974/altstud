@@ -64,9 +64,12 @@ RewriteEngine On
 </IfModule>
 
 # Empêcher l'accès aux fichiers sensibles
-<FilesMatch "(^\.htaccess|\.sql|\.log)$">
+<FilesMatch "(^\.htaccess|\.sql|\.log|^composer\.(json|lock))$">
     Require all denied
 </FilesMatch>
+
+# SDK PHP (dépendances Composer) : jamais servi directement
+RewriteRule ^php-vendor(/|$) - [F,L]
 
 # Page d'erreur personnalisée
 ErrorDocument 404 /index.html

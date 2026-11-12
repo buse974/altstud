@@ -24,6 +24,32 @@
                 <p class="subtitle">Choisissez la version du CV</p>
             </header>
 
+            <form class="generateur" id="generateur">
+                <h2>Nouveau CV pour une offre</h2>
+                <p>
+                    Colle le lien de l'offre ou son texte : un CV et une
+                    lettre de motivation adaptés sont rédigés à partir du
+                    parcours de Virginie, sans rien inventer. Compter une à
+                    deux minutes.
+                </p>
+                <textarea
+                    name="offre"
+                    required
+                    placeholder="https://… ou le texte complet de l'offre"
+                ></textarea>
+                <div class="gen-row">
+                    <input
+                        type="password"
+                        name="code"
+                        required
+                        placeholder="Code d'accès"
+                        autocomplete="current-password"
+                    />
+                    <button type="submit">Générer le CV</button>
+                </div>
+                <div class="gen-status" id="gen-status" aria-live="polite"></div>
+            </form>
+
             <div class="menu-grid">
                 <a href="grande-distribution.html" class="menu-card">
                     <h2>Grande Distribution</h2>
@@ -75,6 +101,96 @@
                     <span class="arrow">Voir le CV →</span>
                 </a>
             </div>
+
+            <div id="generes" hidden>
+                <h2 class="section-menu-title">CV générés pour une offre</h2>
+                <div class="menu-grid" id="generes-grid"></div>
+            </div>
         </div>
+
+        <script>
+            const form = document.getElementById("generateur");
+            const statut = document.getElementById("gen-status");
+            const grille = document.getElementById("generes-grid");
+
+            try {
+                form.code.value = localStorage.getItem("cv-code") || "";
+            } catch (e) {}
+
+            function carte(cv) {
+                const a = document.createElement("a");
+                a.href = cv.file;
+                a.className = "menu-card";
+                const h2 = document.createElement("h2");
+                h2.textContent = cv.titre;
+                const p = document.createElement("p");
+                p.textContent = cv.description;
+                const d = document.createElement("span");
+                d.className = "card-date";
+                d.textContent = new Date(cv.date).toLocaleDateString("fr-FR");
+                const s = document.createElement("span");
+                s.className = "arrow";
+                s.textContent = "Voir le CV →";
+                a.append(h2, p, d, s);
+                return a;
+            }
+
+            async function chargerListe() {
+                try {
+                    const r = await fetch("generer.php?liste");
+                    const data = await r.json();
+                    if (!data.success || !data.cvs.length) return;
+                    grille.replaceChildren(...data.cvs.map(carte));
+                    document.getElementById("generes").hidden = false;
+                } catch (e) {}
+            }
+
+            form.addEventListener("submit", async (ev) => {
+                ev.preventDefault();
+                const bouton = form.querySelector("button");
+                bouton.disabled = true;
+                statut.className = "gen-status";
+                statut.textContent =
+                    "Lecture de l'offre et rédaction en cours… (1 à 2 minutes)";
+
+                try {
+                    const r = await fetch("generer.php", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            offre: form.offre.value,
+                            code: form.code.value,
+                        }),
+                    });
+                    const data = await r.json().catch(() => ({
+                        success: false,
+                        message: "Réponse inattendue du serveur (" + r.status + ")",
+                    }));
+                    if (!data.success) throw new Error(data.message);
+
+                    try {
+                        localStorage.setItem("cv-code", form.code.value);
+                    } catch (e) {}
+
+                    statut.replaceChildren();
+                    const lien = document.createElement("a");
+                    lien.href = data.cv.file;
+                    lien.textContent = "Ouvrir le CV « " + data.cv.titre + " » →";
+                    const notes = document.createElement("p");
+                    notes.className = "gen-notes";
+                    notes.textContent = data.notes;
+                    statut.append("CV prêt. ", lien, notes);
+                    form.offre.value = "";
+                    chargerListe();
+                } catch (e) {
+                    statut.className = "gen-status erreur";
+                    statut.textContent = e.message || "Erreur réseau";
+                } finally {
+                    bouton.disabled = false;
+                }
+            });
+
+            chargerListe();
+        </script>
     </body>
 </html>

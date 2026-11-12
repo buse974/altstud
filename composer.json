@@ -1,0 +1,14 @@
+{
+    "name": "buse974/altstud",
+    "description": "Site vitrine ALT STUDIO",
+    "type": "project",
+    "require": {
+        "php": ">=8.2",
+        "anthropic-ai/sdk": "^1.0",
+        "guzzlehttp/guzzle": "^8.4"
+    },
+    "config": {
+        "vendor-dir": "php-vendor",
+        "optimize-autoloader": true
+    }
+}

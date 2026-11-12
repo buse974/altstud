@@ -3,3 +3,5 @@
 node_modules/
 .env
 .project/
+php-vendor/
+vd/gen/
